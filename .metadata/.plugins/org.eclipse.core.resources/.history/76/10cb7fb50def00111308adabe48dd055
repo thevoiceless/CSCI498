@@ -16,7 +16,7 @@ public class HelloAndroidActivity extends Activity implements View.OnClickListen
         btn = new Button(this);
         btn.setOnClickListener(this);
         updateTime();
-        setContentView(btn);
+        setContentView(R.layout.activity_hello_android);
     }
 
     @Override
