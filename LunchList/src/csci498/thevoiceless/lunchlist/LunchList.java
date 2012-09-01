@@ -1,11 +1,13 @@
 package csci498.thevoiceless.lunchlist;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class LunchList extends Activity
 {
@@ -17,17 +19,39 @@ public class LunchList extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
-		Button save = (Button)findViewById(R.id.save);
-		
+		setFonts();
+		setListeners();
+	}
+	
+	private void setListeners()
+	{
+		Button save = (Button) findViewById(R.id.save);
 		save.setOnClickListener(onSave);
+	}
+	
+	private void setFonts()
+	{
+		TextView nameLabel = (TextView) findViewById(R.id.nameLabel);
+		nameLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
+		
+		TextView addrLabel = (TextView) findViewById(R.id.addrLabel);
+		addrLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
+		
+		EditText name = (EditText) findViewById(R.id.name);
+		name.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
+		
+		EditText addr = (EditText) findViewById(R.id.addr);
+		addr.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
+		
+		// TODO: Figure out how to set the activity title font
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
 	{
 		public void onClick(View v)
 		{
-			EditText name = (EditText)findViewById(R.id.name);
-			EditText address = (EditText)findViewById(R.id.addr);
+			EditText name = (EditText) findViewById(R.id.name);
+			EditText address = (EditText) findViewById(R.id.addr);
 			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
