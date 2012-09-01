@@ -4,10 +4,11 @@ public class Restaurant
 {
 	private String name = "";
 	private String address = "";
+	private String type = "";
 	
 	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 	
 	public void setName(String newName)
@@ -17,11 +18,21 @@ public class Restaurant
 	
 	public String getAddress()
 	{
-		return address;
+		return this.address;
 	}
 	
 	public void setAddress(String newAddress)
 	{
 		this.address = newAddress;
+	}
+	
+	public String getType()
+	{
+		return this.type;
+	}
+	
+	public void setType(String newType)
+	{
+		this.type = newType;
 	}
 }
