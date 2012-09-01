@@ -1,5 +1,8 @@
 package csci498.thevoiceless.lunchlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,7 +16,7 @@ import android.widget.TextView;
 
 public class LunchList extends Activity
 {
-	Restaurant r = new Restaurant();
+	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -34,10 +37,11 @@ public class LunchList extends Activity
 			EditText address = (EditText) findViewById(R.id.addr);
 			
 			// TODO: Put this in a try/catch and show errors in a toast
+			Restaurant r = new Restaurant();
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
 			
-			setRestaurantType();
+			setRestaurantType(r);
 		}
 	};
 	
@@ -67,7 +71,7 @@ public class LunchList extends Activity
 		// TODO: Figure out how to set the activity title font
 	}
 	
-	private void setRestaurantType()
+	private void setRestaurantType(Restaurant r)
 	{
 		RadioGroup typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
 		switch (typeGroup.getCheckedRadioButtonId())
