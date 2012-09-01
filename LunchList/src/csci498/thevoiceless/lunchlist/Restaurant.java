@@ -12,6 +12,12 @@ public class Restaurant
 	private String address = "";
 	private Type type;
 	
+	@Override
+	public String toString()
+	{
+		return this.getName();
+	}
+	
 	public String getName()
 	{
 		return this.name;
