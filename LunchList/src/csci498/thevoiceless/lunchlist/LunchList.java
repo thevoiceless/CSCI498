@@ -8,8 +8,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 public class LunchList extends Activity
 {
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	ArrayAdapter<Restaurant> restaurantsAdapter = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -27,6 +30,7 @@ public class LunchList extends Activity
 		setFonts();
 		setListeners();
 		//addMoreRadioButtons();
+		setAdapters();
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -40,8 +44,8 @@ public class LunchList extends Activity
 			Restaurant r = new Restaurant();
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
-			
 			setRestaurantType(r);
+			restaurantsAdapter.add(r);
 		}
 	};
 	
@@ -101,6 +105,15 @@ public class LunchList extends Activity
 			r.setText("Test" + i);
 			typeGroup.addView(r);
 		}
+	}
+	
+	private void setAdapters()
+	{
+		ListView list = (ListView) findViewById(R.id.restaurantsList);
+		restaurantsAdapter = new ArrayAdapter<Restaurant>(this,
+				android.R.layout.simple_list_item_1,
+				restaurants);
+		list.setAdapter(restaurantsAdapter);
 	}
 
 	@Override
