@@ -31,17 +31,20 @@ public class LunchList extends Activity
 	
 	private void setFonts()
 	{
+		// TODO: See if it's possible to do this via iteration
+		
 		TextView nameLabel = (TextView) findViewById(R.id.nameLabel);
 		nameLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
-		
 		TextView addrLabel = (TextView) findViewById(R.id.addrLabel);
 		addrLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
 		
 		EditText name = (EditText) findViewById(R.id.name);
 		name.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
-		
 		EditText addr = (EditText) findViewById(R.id.addr);
 		addr.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
+		
+		TextView typeLabel = (TextView) findViewById(R.id.typeLabel);
+		typeLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
 		
 		// TODO: Figure out how to set the activity title font
 	}
