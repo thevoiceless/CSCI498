@@ -2,9 +2,15 @@ package csci498.thevoiceless.lunchlist;
 
 public class Restaurant
 {
+	public enum Type
+	{
+		SIT_DOWN,
+		TAKE_OUT,
+		DELIVERY
+	}
 	private String name = "";
 	private String address = "";
-	private String type = "";
+	private Type type;
 	
 	public String getName()
 	{
@@ -26,12 +32,12 @@ public class Restaurant
 		this.address = newAddress;
 	}
 	
-	public String getType()
+	public Type getType()
 	{
 		return this.type;
 	}
 	
-	public void setType(String newType)
+	public void setType(Type newType)
 	{
 		this.type = newType;
 	}

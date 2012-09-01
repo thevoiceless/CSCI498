@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class LunchList extends Activity
@@ -23,6 +24,21 @@ public class LunchList extends Activity
 		setListeners();
 	}
 	
+	private View.OnClickListener onSave = new View.OnClickListener()
+	{
+		public void onClick(View v)
+		{
+			EditText name = (EditText) findViewById(R.id.name);
+			EditText address = (EditText) findViewById(R.id.addr);
+			
+			// TODO: Put this in a try/catch and show errors in a toast
+			r.setName(name.getText().toString());
+			r.setAddress(address.getText().toString());
+			
+			setRestaurantType();
+		}
+	};
+	
 	private void setListeners()
 	{
 		Button save = (Button) findViewById(R.id.save);
@@ -31,7 +47,7 @@ public class LunchList extends Activity
 	
 	private void setFonts()
 	{
-		// TODO: See if it's possible to do this via iteration
+		// TODO: See if it's possible to do all of this via iteration
 		
 		TextView nameLabel = (TextView) findViewById(R.id.nameLabel);
 		nameLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
@@ -49,17 +65,22 @@ public class LunchList extends Activity
 		// TODO: Figure out how to set the activity title font
 	}
 	
-	private View.OnClickListener onSave = new View.OnClickListener()
+	private void setRestaurantType()
 	{
-		public void onClick(View v)
+		RadioGroup typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
+		switch (typeGroup.getCheckedRadioButtonId())
 		{
-			EditText name = (EditText) findViewById(R.id.name);
-			EditText address = (EditText) findViewById(R.id.addr);
-			
-			r.setName(name.getText().toString());
-			r.setAddress(address.getText().toString());
+			case R.id.sitdownRadio:
+				r.setType(Restaurant.Type.SIT_DOWN);
+				break;
+			case R.id.takeoutRadio:
+				r.setType(Restaurant.Type.TAKE_OUT);
+				break;
+			case R.id.deliveryRadio:
+				r.setType(Restaurant.Type.DELIVERY);
+				break;
 		}
-	};
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
