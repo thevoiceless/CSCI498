@@ -1,4 +1,83 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TableLayout android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:stretchColumns="1"
+        android:shrinkColumns="1" >
+        
+        <TableRow>
+            <TextView
+                android:id="@+id/nameLabel"
+                android:text="Name:" />
+
+            <EditText
+                android:id="@+id/name"
+                android:inputType="text|textCapSentences|textAutoCorrect" />
+        </TableRow>
+        
+        <TableRow>
+            <TextView
+                android:id="@+id/addrLabel"
+                android:text="Address:" />
+
+            <EditText
+                android:id="@+id/addr"
+                android:inputType="textPostalAddress" />
+        </TableRow>
+        
+        <TableRow>
+            <TextView
+                android:id="@+id/typeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type:" />
+
+            <RadioGroup
+                android:id="@+id/typeGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/takeoutRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Take-Out" />
+
+                <RadioButton
+                    android:id="@+id/sitdownRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sit-Down" />
+
+                <RadioButton
+                    android:id="@+id/deliveryRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery" />
+            </RadioGroup>
+        </TableRow>
+        
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+        
+    </TableLayout>
+    
+    <ListView android:id="@+id/restaurants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/details" />
+</RelativeLayout>
+
+<!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -74,59 +153,4 @@
             android:text="Save" />
     </TableLayout>
 
-</ScrollView><!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/nameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name:" />
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text|textCapSentences|textAutoCorrect" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/addrLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Address:" />
-
-        <EditText
-            android:id="@+id/addr"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPostalAddress" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="81dp"
-        android:text="Save" />
-
-</LinearLayout>
--->
+</ScrollView> -->

@@ -26,7 +26,7 @@ public class LunchList extends Activity
 		
 		setFonts();
 		setListeners();
-		addMoreRadioButtons();
+		//addMoreRadioButtons();
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
