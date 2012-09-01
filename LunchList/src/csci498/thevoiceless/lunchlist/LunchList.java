@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class LunchList extends Activity
 		
 		setFonts();
 		setListeners();
+		addMoreRadioButtons();
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -79,6 +81,21 @@ public class LunchList extends Activity
 			case R.id.deliveryRadio:
 				r.setType(Restaurant.Type.DELIVERY);
 				break;
+		}
+	}
+	
+	/*
+	 * Add 10 more radio buttons to the "Type" button group
+	 * This was to practice adding radio buttons via code instead of XML
+	 */
+	private void addMoreRadioButtons()
+	{
+		RadioGroup typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
+		for (int i = 0; i < 10; ++i)
+		{
+			RadioButton r = new RadioButton(this);
+			r.setText("Test" + i);
+			typeGroup.addView(r);
 		}
 	}
 
