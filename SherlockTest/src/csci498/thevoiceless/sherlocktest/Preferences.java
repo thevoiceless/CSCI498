@@ -18,6 +18,7 @@ public class Preferences extends Activity implements OnCreateOptionsMenuListener
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		// Allow placing entries along the bottom of the screen
 		sherlock.setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 		// Note: ActionBarSherlock instance handles the content layout
 		sherlock.setContentView(R.layout.preferences);
