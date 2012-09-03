@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class LunchList extends Activity
@@ -109,9 +109,9 @@ public class LunchList extends Activity
 	
 	private void setAdapters()
 	{
-		ListView list = (ListView) findViewById(R.id.restaurantsList);
+		Spinner list = (Spinner) findViewById(R.id.restaurantsList);
 		restaurantsAdapter = new ArrayAdapter<Restaurant>(this,
-				android.R.layout.simple_list_item_1,
+				android.R.layout.simple_spinner_dropdown_item,
 				restaurants);
 		list.setAdapter(restaurantsAdapter);
 	}
