@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -38,7 +39,7 @@ public class LunchList extends Activity
 		public void onClick(View v)
 		{
 			EditText name = (EditText) findViewById(R.id.name);
-			EditText address = (EditText) findViewById(R.id.addr);
+			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
 			
 			// TODO: Put this in a try/catch and show errors in a toast
 			Restaurant r = new Restaurant();
@@ -114,6 +115,9 @@ public class LunchList extends Activity
 				android.R.layout.simple_spinner_dropdown_item,
 				restaurants);
 		list.setAdapter(restaurantsAdapter);
+		
+		AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+		address.setAdapter(restaurantsAdapter);
 	}
 
 	@Override

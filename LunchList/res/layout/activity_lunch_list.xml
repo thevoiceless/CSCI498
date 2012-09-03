@@ -32,9 +32,10 @@
                     android:id="@+id/addrLabel"
                     android:text="Address:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/addr"
                     android:inputType="textPostalAddress" />
+
             </TableRow>
 
             <TableRow>
