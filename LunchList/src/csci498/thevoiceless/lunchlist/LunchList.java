@@ -6,12 +6,14 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -57,6 +59,37 @@ public class LunchList extends Activity
 		RestaurantAdapter()
 		{
 			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
+		}
+		
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
+			View row = convertView;
+			if(row == null)
+			{
+				LayoutInflater inflater = getLayoutInflater();
+				row = inflater.inflate(R.layout.row, null);
+			}
+			
+			Restaurant r = restaurants.get(position);
+			((TextView) row.findViewById(R.id.title)).setText(r.getName());
+			((TextView) row.findViewById(R.id.address)).setText(r.getAddress());
+			
+			ImageView icon = (ImageView) row.findViewById(R.id.icon);
+			
+			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
+			{
+				icon.setImageResource(R.drawable.circle_green);
+			}
+			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
+			{
+				icon.setImageResource(R.drawable.circle_orange);
+			}
+			else
+			{
+				icon.setImageResource(R.drawable.circle_purple);
+			}
+			
+			return row;
 		}
 	}
 	
