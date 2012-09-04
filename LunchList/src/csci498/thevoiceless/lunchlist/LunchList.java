@@ -75,7 +75,7 @@ public class LunchList extends Activity
 			((TextView) row.findViewById(R.id.address)).setText(r.getAddress());
 			
 			ImageView icon = (ImageView) row.findViewById(R.id.icon);
-			
+			// TODO: Refactor this
 			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
 			{
 				icon.setImageResource(R.drawable.circle_green);
@@ -90,6 +90,39 @@ public class LunchList extends Activity
 			}
 			
 			return row;
+		}
+	}
+	
+	static class RestaurantHolder
+	{
+		private TextView name = null;
+		private TextView address = null;
+		private ImageView icon = null;
+		
+		RestaurantHolder(View row)
+		{
+			name = (TextView) row.findViewById(R.id.title);
+			address = (TextView) row.findViewById(R.id.address);
+			icon = (ImageView) row.findViewById(R.id.icon);
+		}
+		
+		void populateForm(Restaurant r)
+		{
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			
+			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
+			{
+				icon.setImageResource(R.drawable.circle_green);
+			}
+			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
+			{
+				icon.setImageResource(R.drawable.circle_orange);
+			}
+			else
+			{
+				icon.setImageResource(R.drawable.circle_purple);
+			}
 		}
 	}
 	
