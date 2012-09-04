@@ -20,7 +20,8 @@ import android.widget.TextView;
 public class LunchList extends Activity
 {
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
-	ArrayAdapter<Restaurant> restaurantsAdapter = null;
+	//ArrayAdapter<Restaurant> restaurantsAdapter = null;
+	RestaurantAdapter restaurantsAdapter = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -121,10 +122,13 @@ public class LunchList extends Activity
 	{
 		//Spinner list = (Spinner) findViewById(R.id.restaurantsList);
 		ListView list = (ListView) findViewById(R.id.restaurantsList);
+		/*
 		restaurantsAdapter = new ArrayAdapter<Restaurant>(this,
 				//android.R.layout.simple_spinner_dropdown_item,
 				android.R.layout.simple_list_item_1,
 				restaurants);
+				*/
+		restaurantsAdapter = new RestaurantAdapter();
 		list.setAdapter(restaurantsAdapter);
 		
 		//AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
