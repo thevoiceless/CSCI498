@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class LunchList extends Activity
@@ -28,7 +28,7 @@ public class LunchList extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
-		setFonts();
+		//setFonts();
 		setListeners();
 		//addMoreRadioButtons();
 		setAdapters();
@@ -39,7 +39,8 @@ public class LunchList extends Activity
 		public void onClick(View v)
 		{
 			EditText name = (EditText) findViewById(R.id.name);
-			AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+			//AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+			EditText address = (EditText) findViewById(R.id.addr);
 			
 			// TODO: Put this in a try/catch and show errors in a toast
 			Restaurant r = new Restaurant();
@@ -110,14 +111,16 @@ public class LunchList extends Activity
 	
 	private void setAdapters()
 	{
-		Spinner list = (Spinner) findViewById(R.id.restaurantsList);
+		//Spinner list = (Spinner) findViewById(R.id.restaurantsList);
+		ListView list = (ListView) findViewById(R.id.restaurantsList);
 		restaurantsAdapter = new ArrayAdapter<Restaurant>(this,
-				android.R.layout.simple_spinner_dropdown_item,
+				//android.R.layout.simple_spinner_dropdown_item,
+				android.R.layout.simple_list_item_1,
 				restaurants);
 		list.setAdapter(restaurantsAdapter);
 		
-		AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
-		address.setAdapter(restaurantsAdapter);
+		//AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
+		//address.setAdapter(restaurantsAdapter);
 	}
 
 	@Override

@@ -80,7 +80,7 @@
         </TableLayout>
     </ScrollView>
 
-    <Spinner
+    <ListView
         android:id="@+id/restaurantsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
