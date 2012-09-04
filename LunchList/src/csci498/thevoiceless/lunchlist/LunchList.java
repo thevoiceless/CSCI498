@@ -64,30 +64,21 @@ public class LunchList extends Activity
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			View row = convertView;
+			RestaurantHolder holder = null;
+			
 			if(row == null)
 			{
 				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.row, null);
-			}
-			
-			Restaurant r = restaurants.get(position);
-			((TextView) row.findViewById(R.id.title)).setText(r.getName());
-			((TextView) row.findViewById(R.id.address)).setText(r.getAddress());
-			
-			ImageView icon = (ImageView) row.findViewById(R.id.icon);
-			// TODO: Refactor this
-			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
-			{
-				icon.setImageResource(R.drawable.circle_green);
-			}
-			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
-			{
-				icon.setImageResource(R.drawable.circle_orange);
+				row = inflater.inflate(R.layout.row, parent, false);
+				holder = new RestaurantHolder(row);
+				row.setTag(holder);
 			}
 			else
 			{
-				icon.setImageResource(R.drawable.circle_purple);
+				holder = (RestaurantHolder) row.getTag();
 			}
+			
+			holder.populateForm(restaurants.get(position));
 			
 			return row;
 		}
@@ -113,15 +104,15 @@ public class LunchList extends Activity
 			
 			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
 			{
-				icon.setImageResource(R.drawable.circle_green);
+				icon.setImageResource(R.drawable.green_circle);
 			}
 			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
 			{
-				icon.setImageResource(R.drawable.circle_orange);
+				icon.setImageResource(R.drawable.blue_circle);
 			}
 			else
 			{
-				icon.setImageResource(R.drawable.circle_purple);
+				icon.setImageResource(R.drawable.lightblue_circle);
 			}
 		}
 	}
