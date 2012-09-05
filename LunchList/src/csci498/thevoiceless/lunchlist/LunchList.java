@@ -57,9 +57,38 @@ public class LunchList extends Activity
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant>
 	{
+		// http://stackoverflow.com/questions/10270143/why-do-recipes-promote-overriding-getitemviewtype-and-getviewtypecount-when-it-d
+		// Not really sure what I'm doing here...
+		private static final int ROW_TYPE_SIT_DOWN = 0;
+		private static final int ROW_TYPE_TAKE_OUT = 1;
+		private static final int ROW_TYPE_DELIVERY = 2;
+
 		RestaurantAdapter()
 		{
 			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
+		}
+		
+		// 3 different kinds of views
+		public int getViewTypeCount()
+		{
+			return 3;
+		}
+		
+		// Get the type of the view at the given position
+		public int getItemViewType(int position)
+		{
+			if(restaurants.get(position).getType().equals(Restaurant.Type.SIT_DOWN))
+			{
+				return ROW_TYPE_SIT_DOWN;
+			}
+			else if(restaurants.get(position).getType().equals(Restaurant.Type.TAKE_OUT))
+			{
+				return ROW_TYPE_TAKE_OUT;
+			}
+			else
+			{
+				return ROW_TYPE_DELIVERY;
+			}
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent)
@@ -70,7 +99,19 @@ public class LunchList extends Activity
 			if(row == null)
 			{
 				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.row, parent, false);
+				switch(getItemViewType(position))
+				{
+					case ROW_TYPE_SIT_DOWN:
+						row = inflater.inflate(R.layout.row_sitdown, null);
+						break;
+					case ROW_TYPE_TAKE_OUT:
+						row = inflater.inflate(R.layout.row_takeout, null);
+						break;
+					default:
+						row = inflater.inflate(R.layout.row_delivery, null);
+						break;
+				}
+				
 				holder = new RestaurantHolder(row);
 				row.setTag(holder);
 			}
