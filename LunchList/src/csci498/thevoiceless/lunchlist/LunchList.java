@@ -91,6 +91,7 @@ public class LunchList extends Activity
 			}
 		}
 		
+		// I don't really know what's going on here
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			View row = convertView;
