@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +25,12 @@ import android.widget.TextView;
 public class LunchList extends TabActivity
 {
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
-	//ArrayAdapter<Restaurant> restaurantsAdapter = null;
 	RestaurantAdapter restaurantsAdapter = null;
+	EditText name = null;
+	EditText address = null;
+	RadioGroup typeGroup = null;
+	ListView list = null;
+	Button save = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -33,9 +38,10 @@ public class LunchList extends TabActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
+		setDataMembers();
 		//setFonts();
-		setListeners();
 		//addMoreRadioButtons();
+		setListeners();
 		setAdapters();
 		createTabs();
 	}
@@ -44,16 +50,20 @@ public class LunchList extends TabActivity
 	{
 		public void onClick(View v)
 		{
-			EditText name = (EditText) findViewById(R.id.name);
-			//AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
-			EditText address = (EditText) findViewById(R.id.addr);
-			
 			// TODO: Put this in a try/catch and show errors in a toast
 			Restaurant r = new Restaurant();
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
 			setRestaurantType(r);
 			restaurantsAdapter.add(r);
+		}
+	};
+	
+	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener()
+	{
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+		{
+			
 		}
 	};
 	
@@ -102,18 +112,6 @@ public class LunchList extends TabActivity
 			if(row == null)
 			{
 				LayoutInflater inflater = getLayoutInflater();
-				/*switch(getItemViewType(position))
-				{
-					case ROW_TYPE_SIT_DOWN:
-						row = inflater.inflate(R.layout.row_sitdown, null);
-						break;
-					case ROW_TYPE_TAKE_OUT:
-						row = inflater.inflate(R.layout.row_takeout, null);
-						break;
-					default:
-						row = inflater.inflate(R.layout.row_delivery, null);
-						break;
-				}*/
 				row = inflater.inflate(R.layout.row, null);
 				
 				holder = new RestaurantHolder(row);
@@ -132,44 +130,53 @@ public class LunchList extends TabActivity
 	
 	static class RestaurantHolder
 	{
-		private TextView name = null;
-		private TextView address = null;
-		private ImageView icon = null;
+		private TextView rName = null;
+		private TextView rAddress = null;
+		private ImageView rIcon = null;
 		
 		RestaurantHolder(View row)
 		{
-			name = (TextView) row.findViewById(R.id.title);
-			address = (TextView) row.findViewById(R.id.address);
-			icon = (ImageView) row.findViewById(R.id.icon);
+			rName = (TextView) row.findViewById(R.id.title);
+			rAddress = (TextView) row.findViewById(R.id.address);
+			rIcon = (ImageView) row.findViewById(R.id.icon);
 		}
 		
 		void populateForm(Restaurant r)
 		{
-			name.setText(r.getName());
-			address.setText(r.getAddress());
+			rName.setText(r.getName());
+			rAddress.setText(r.getAddress());
 			
 			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
 			{
-				icon.setImageResource(R.drawable.green_circle);
-				name.setTextColor(Color.rgb(0, 153, 0));
+				rIcon.setImageResource(R.drawable.green_circle);
+				rName.setTextColor(Color.rgb(0, 153, 0));
 			}
 			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
 			{
-				icon.setImageResource(R.drawable.blue_circle);
-				name.setTextColor(Color.BLUE);
+				rIcon.setImageResource(R.drawable.blue_circle);
+				rName.setTextColor(Color.BLUE);
 			}
 			else
 			{
-				icon.setImageResource(R.drawable.lightblue_circle);
-				name.setTextColor(Color.rgb(56, 178, 206));
+				rIcon.setImageResource(R.drawable.lightblue_circle);
+				rName.setTextColor(Color.rgb(56, 178, 206));
 			}
 		}
 	}
 	
+	private void setDataMembers()
+	{
+		name = (EditText) findViewById(R.id.name);
+		address = (EditText) findViewById(R.id.addr);
+		typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
+		list = (ListView) findViewById(R.id.restaurantsList);
+		save = (Button) findViewById(R.id.save);
+	}
+	
 	private void setListeners()
 	{
-		Button save = (Button) findViewById(R.id.save);
 		save.setOnClickListener(onSave);
+		list.setOnItemClickListener(onListClick);
 	}
 	
 	private void setFonts()
@@ -181,10 +188,8 @@ public class LunchList extends TabActivity
 		TextView addrLabel = (TextView) findViewById(R.id.addrLabel);
 		addrLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
 		
-		EditText name = (EditText) findViewById(R.id.name);
 		name.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
-		EditText addr = (EditText) findViewById(R.id.addr);
-		addr.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
+		address.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
 		
 		TextView typeLabel = (TextView) findViewById(R.id.typeLabel);
 		typeLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
@@ -194,7 +199,6 @@ public class LunchList extends TabActivity
 	
 	private void setRestaurantType(Restaurant r)
 	{
-		RadioGroup typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
 		switch (typeGroup.getCheckedRadioButtonId())
 		{
 			case R.id.sitdownRadio:
@@ -215,7 +219,6 @@ public class LunchList extends TabActivity
 	 */
 	private void addMoreRadioButtons()
 	{
-		RadioGroup typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
 		for (int i = 0; i < 10; ++i)
 		{
 			RadioButton r = new RadioButton(this);
@@ -226,7 +229,6 @@ public class LunchList extends TabActivity
 	
 	private void setAdapters()
 	{
-		ListView list = (ListView) findViewById(R.id.restaurantsList);
 		restaurantsAdapter = new RestaurantAdapter();
 		list.setAdapter(restaurantsAdapter);
 	}
