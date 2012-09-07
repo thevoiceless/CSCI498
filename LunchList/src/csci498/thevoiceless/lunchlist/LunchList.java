@@ -24,10 +24,13 @@ import android.widget.TextView;
 
 public class LunchList extends TabActivity
 {
+	// Tab ID values
 	private static final int LIST_TAB_ID = 0;
 	private static final int DETAILS_TAB_ID = 1;
+	// ArrayList of restaurants and its associated adapter
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantsAdapter = null;
+	// Data members from the view
 	EditText name = null;
 	EditText address = null;
 	RadioGroup typeGroup = null;
@@ -89,38 +92,9 @@ public class LunchList extends TabActivity
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant>
 	{
-		// http://stackoverflow.com/questions/10270143/why-do-recipes-promote-overriding-getitemviewtype-and-getviewtypecount-when-it-d
-		// Not really sure what I'm doing here...
-		private static final int ROW_TYPE_SIT_DOWN = 0;
-		private static final int ROW_TYPE_TAKE_OUT = 1;
-		private static final int ROW_TYPE_DELIVERY = 2;
-
 		RestaurantAdapter()
 		{
 			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
-		}
-		
-		// 3 different kinds of views
-		public int getViewTypeCount()
-		{
-			return 3;
-		}
-		
-		// Get the type of the view at the given position
-		public int getItemViewType(int position)
-		{
-			if(restaurants.get(position).getType().equals(Restaurant.Type.SIT_DOWN))
-			{
-				return ROW_TYPE_SIT_DOWN;
-			}
-			else if(restaurants.get(position).getType().equals(Restaurant.Type.TAKE_OUT))
-			{
-				return ROW_TYPE_TAKE_OUT;
-			}
-			else
-			{
-				return ROW_TYPE_DELIVERY;
-			}
 		}
 		
 		// I don't really know what's going on here
@@ -270,6 +244,8 @@ public class LunchList extends TabActivity
 		getTabHost().addTab(tab);
 		
 		getTabHost().setCurrentTab(LIST_TAB_ID);
+		
+		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
 	}
 
 	@Override
