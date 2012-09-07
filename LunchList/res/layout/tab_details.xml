@@ -1,19 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/details"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <DatePicker
         android:id="@+id/visited"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:calendarViewShown="false" />
+        android:calendarViewShown="false"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/detailsScroll" />
 
     <ScrollView
         android:id="@+id/detailsScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
 
         <TableLayout
             android:id="@+id/detailsTable"
@@ -76,4 +78,4 @@
         </TableLayout>
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>
