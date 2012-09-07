@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <DatePicker
+        android:id="@+id/visited"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false" />
+
+    <ScrollView
+        android:id="@+id/detailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableLayout
+            android:id="@+id/detailsTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:shrinkColumns="1"
+            android:stretchColumns="1" >
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/nameLabel"
+                    android:text="Name:" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:inputType="text|textCapSentences|textAutoCorrect" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/addrLabel"
+                    android:text="Address:" />
+
+                <EditText
+                    android:id="@+id/addr"
+                    android:inputType="textPostalAddress" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/typeLabel"
+                    android:text="Type:" />
+
+                <RadioGroup android:id="@+id/typeGroup" >
+
+                    <RadioButton
+                        android:id="@+id/takeoutRadio"
+                        android:checked="true"
+                        android:text="Take-Out" />
+
+                    <RadioButton
+                        android:id="@+id/sitdownRadio"
+                        android:text="Sit-Down" />
+
+                    <RadioButton
+                        android:id="@+id/deliveryRadio"
+                        android:text="Delivery" />
+                </RadioGroup>
+            </TableRow>
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>
