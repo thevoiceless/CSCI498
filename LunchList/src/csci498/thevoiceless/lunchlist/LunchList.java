@@ -102,7 +102,7 @@ public class LunchList extends TabActivity
 			if(row == null)
 			{
 				LayoutInflater inflater = getLayoutInflater();
-				switch(getItemViewType(position))
+				/*switch(getItemViewType(position))
 				{
 					case ROW_TYPE_SIT_DOWN:
 						row = inflater.inflate(R.layout.row_sitdown, null);
@@ -113,7 +113,8 @@ public class LunchList extends TabActivity
 					default:
 						row = inflater.inflate(R.layout.row_delivery, null);
 						break;
-				}
+				}*/
+				row = inflater.inflate(R.layout.row, null);
 				
 				holder = new RestaurantHolder(row);
 				row.setTag(holder);
