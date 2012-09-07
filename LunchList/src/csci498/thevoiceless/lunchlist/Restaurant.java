@@ -1,5 +1,7 @@
 package csci498.thevoiceless.lunchlist;
 
+import java.util.Date;
+
 public class Restaurant
 {
 	public enum Type
@@ -8,6 +10,9 @@ public class Restaurant
 		TAKE_OUT,
 		DELIVERY
 	}
+	
+	// Not sure what to do about this
+	private Date visited;
 	private String name = "";
 	private String address = "";
 	private Type type;
@@ -46,5 +51,15 @@ public class Restaurant
 	public void setType(Type newType)
 	{
 		this.type = newType;
+	}
+	
+	public Date getDateVisited()
+	{
+		return visited;
+	}
+	
+	public void setDateVisited(int month, int day, int year)
+	{
+		this.visited = new Date(year, month, day);
 	}
 }
