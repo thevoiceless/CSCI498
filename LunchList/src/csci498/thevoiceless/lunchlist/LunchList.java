@@ -3,7 +3,7 @@ package csci498.thevoiceless.lunchlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import android.app.TabActivity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,9 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 
-public class LunchList extends Activity
+public class LunchList extends TabActivity
 {
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	//ArrayAdapter<Restaurant> restaurantsAdapter = null;
@@ -36,6 +37,7 @@ public class LunchList extends Activity
 		setListeners();
 		//addMoreRadioButtons();
 		setAdapters();
+		createTabs();
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -223,19 +225,28 @@ public class LunchList extends Activity
 	
 	private void setAdapters()
 	{
-		//Spinner list = (Spinner) findViewById(R.id.restaurantsList);
 		ListView list = (ListView) findViewById(R.id.restaurantsList);
-		/*
-		restaurantsAdapter = new ArrayAdapter<Restaurant>(this,
-				//android.R.layout.simple_spinner_dropdown_item,
-				android.R.layout.simple_list_item_1,
-				restaurants);
-				*/
 		restaurantsAdapter = new RestaurantAdapter();
 		list.setAdapter(restaurantsAdapter);
+	}
+	
+	private void createTabs()
+	{
+		// https://developer.android.com/reference/android/widget/TabHost.TabSpec.html
+		// getTabHost() returns the TabHost that the activity is using to host its tabs
+		// TabHost holds two children: a set of tab labels that the user clicks to select a specific tab, and a FrameLayout object that displays the contents of that page
+		TabHost.TabSpec tab = getTabHost().newTabSpec("tag1");
 		
-		//AutoCompleteTextView address = (AutoCompleteTextView) findViewById(R.id.addr);
-		//address.setAdapter(restaurantsAdapter);
+		tab.setContent(R.id.restaurantsList);
+		tab.setIndicator("List", getResources().getDrawable(R.drawable.list));
+		getTabHost().addTab(tab);
+		
+		tab = getTabHost().newTabSpec("tag2");
+		tab.setContent(R.id.details);
+		tab.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+		getTabHost().addTab(tab);
+		
+		getTabHost().setCurrentTab(0);
 	}
 
 	@Override
