@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 public class LunchList extends TabActivity
 {
+	private static final int LIST_TAB_ID = 0;
+	private static final int DETAILS_TAB_ID = 1;
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantsAdapter = null;
 	EditText name = null;
@@ -63,7 +65,25 @@ public class LunchList extends TabActivity
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
+			Restaurant r = restaurants.get(position);
 			
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			
+			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
+			{
+				typeGroup.check(R.id.sitdownRadio);
+			}
+			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
+			{
+				typeGroup.check(R.id.takeoutRadio);
+			}
+			else
+			{
+				typeGroup.check(R.id.deliveryRadio);
+			}
+			
+			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
 	};
 	
@@ -249,7 +269,7 @@ public class LunchList extends TabActivity
 		tab.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
 		getTabHost().addTab(tab);
 		
-		getTabHost().setCurrentTab(0);
+		getTabHost().setCurrentTab(LIST_TAB_ID);
 	}
 
 	@Override
