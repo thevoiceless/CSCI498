@@ -3,12 +3,13 @@ package csci498.thevoiceless.lunchlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.TabActivity;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,8 +23,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-public class LunchList extends TabActivity
+public class LunchList extends Activity
 {
 	// Tab ID values
 	private static final int LIST_TAB_ID = 0;
@@ -38,6 +40,9 @@ public class LunchList extends TabActivity
 	RadioGroup typeGroup = null;
 	ListView list = null;
 	Button save = null;
+	
+	private ViewFlipper vf = null;
+	private float lastX;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -45,12 +50,13 @@ public class LunchList extends TabActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lunch_list);
 		
+		vf = (ViewFlipper) findViewById(R.id.view_flipper);
+		
 		setDataMembers();
 		//setFonts();
 		//addMoreRadioButtons();
 		setListeners();
 		setAdapters();
-		createTabs();
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -89,8 +95,6 @@ public class LunchList extends TabActivity
 			{
 				typeGroup.check(R.id.deliveryRadio);
 			}
-			
-			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
 	};
 	
@@ -231,32 +235,51 @@ public class LunchList extends TabActivity
 		restaurantsAdapter = new RestaurantAdapter();
 		list.setAdapter(restaurantsAdapter);
 	}
-	
-	private void createTabs()
-	{
-		// https://developer.android.com/reference/android/widget/TabHost.TabSpec.html
-		// getTabHost() returns the TabHost that the activity is using to host its tabs
-		// TabHost holds two children: a set of tab labels that the user clicks to select a specific tab, and a FrameLayout object that displays the contents of that page
-		TabHost.TabSpec tab = getTabHost().newTabSpec("tag1");
-		
-		tab.setContent(R.id.restaurantsList);
-		tab.setIndicator("List", getResources().getDrawable(R.drawable.list));
-		getTabHost().addTab(tab);
-		
-		tab = getTabHost().newTabSpec("tag2");
-		tab.setContent(R.id.details);
-		tab.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-		getTabHost().addTab(tab);
-		
-		getTabHost().setCurrentTab(LIST_TAB_ID);
-		
-		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_lunch_list, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent touchevent)
+	{
+		// TODO: Figure out how to trigger this when swiping on the ListView
+		switch (touchevent.getAction())
+		{
+			case MotionEvent.ACTION_DOWN:
+			{
+				lastX = touchevent.getX();
+				break;
+			}
+			case MotionEvent.ACTION_UP:
+			{
+				float currentX = touchevent.getX();
+				if (lastX < currentX)
+				{
+					if (vf.getDisplayedChild() == 0)
+						break;
+					vf.setInAnimation(this, R.anim.in_from_left);
+					vf.setOutAnimation(this, R.anim.out_to_right);
+					vf.showNext();
+					TextView instr = (TextView) findViewById(R.id.instructions);
+					instr.setText("Swipe to the left in this area");
+				}
+				if (lastX > currentX)
+				{
+					if (vf.getDisplayedChild() == 1)
+						break;
+					vf.setInAnimation(this, R.anim.in_from_right);
+					vf.setOutAnimation(this, R.anim.out_to_left);
+					vf.showPrevious();
+					TextView instr = (TextView) findViewById(R.id.instructions);
+					instr.setText("Swipe to the right in this area");
+				}
+				break;
+			}
+		}
+		return false;
 	}
 }

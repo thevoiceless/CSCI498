@@ -1,4 +1,29 @@
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView android:id="@+id/instructions"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20px"
+        android:text="Swipe to the left in this area" />
+    
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="6dip" >
+        
+        <include layout="@layout/tab_restaurants" />
+        
+        <include layout="@layout/tab_details" />
+	</ViewFlipper>
+        
+</LinearLayout>
+
+<!-- <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -25,4 +50,4 @@
         </FrameLayout>
     </LinearLayout>
 
-</TabHost>
+</TabHost> -->
