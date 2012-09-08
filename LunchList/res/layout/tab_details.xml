@@ -25,37 +25,47 @@
                 android:id="@+id/visited"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
                 android:calendarViewShown="false" />
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/nameLabel"
+                    android:layout_marginLeft="8px"
                     android:text="Name:" />
 
                 <EditText
                     android:id="@+id/name"
+                    android:layout_marginRight="8px"
                     android:inputType="text|textCapSentences|textAutoCorrect" />
+
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/addrLabel"
+                    android:layout_marginLeft="8px"
                     android:text="Address:" />
 
                 <EditText
                     android:id="@+id/addr"
+                    android:layout_marginRight="8px"
                     android:inputType="textPostalAddress" />
+
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/typeLabel"
+                    android:layout_marginLeft="8px"
                     android:text="Type:" />
 
-                <RadioGroup android:id="@+id/typeGroup" >
+                <RadioGroup
+                    android:id="@+id/typeGroup"
+                    android:layout_marginRight="8px" >
 
                     <RadioButton
                         android:id="@+id/takeoutRadio"
@@ -73,24 +83,32 @@
             </TableRow>
             
             <TableRow>
-                <TextView 
+
+                <TextView
                     android:id="@+id/notesLabel"
+                    android:layout_marginLeft="8px"
                     android:text="Notes:" />
                 
-                <EditText android:id="@+id/notes"
-                    android:singleLine="false"
+                <EditText
+                    android:id="@+id/notes"
+                    android:layout_marginRight="8px"
                     android:gravity="top"
+                    android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
                     android:lines="2"
-                    android:scrollHorizontally="false"
                     android:maxLines="2"
-                    android:maxWidth="200sp" />
+                    android:maxWidth="200sp"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false" />
+
             </TableRow>
 
             <Button
                 android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="8px"
                 android:text="Save" />
+
         </TableLayout>
     </ScrollView>
 
