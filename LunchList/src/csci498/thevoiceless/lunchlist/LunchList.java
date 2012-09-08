@@ -72,7 +72,14 @@ public class LunchList extends TabActivity
 			String message = "No restaurant selected";
 			if(current != null)
 			{
-				message = current.getNotes();
+				if(current.getNotes().length() == 0)
+				{
+					message = "No notes for the current restaurant";
+				}
+				else
+				{
+					message = current.getNotes();
+				}
 			}
 			
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
