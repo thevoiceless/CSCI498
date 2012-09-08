@@ -60,10 +60,11 @@ public class LunchList extends TabActivity
 		{
 			// TODO: Put this in a try/catch and show errors in a toast
 			Restaurant r = new Restaurant();
+			r.setDateVisited(visited.getMonth(), visited.getDayOfMonth(), visited.getYear());
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
-			r.setDateVisited(visited.getMonth(), visited.getDayOfMonth(), visited.getYear());
 			setRestaurantType(r);
+			r.setNotes(notes.getText().toString());
 			restaurantsAdapter.add(r);
 		}
 	};
@@ -90,6 +91,8 @@ public class LunchList extends TabActivity
 			{
 				typeGroup.check(R.id.deliveryRadio);
 			}
+			
+			notes.setText(r.getNotes());
 			
 			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
@@ -135,9 +138,9 @@ public class LunchList extends TabActivity
 		
 		RestaurantHolder(View row)
 		{
-			rName = (TextView) row.findViewById(R.id.title);
-			rAddress = (TextView) row.findViewById(R.id.address);
-			rIcon = (ImageView) row.findViewById(R.id.icon);
+			rName 		= (TextView) row.findViewById(R.id.title);
+			rAddress 	= (TextView) row.findViewById(R.id.address);
+			rIcon 		= (ImageView) row.findViewById(R.id.icon);
 		}
 		
 		void populateForm(Restaurant r)
