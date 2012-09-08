@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LunchList extends TabActivity
 {
@@ -39,6 +41,7 @@ public class LunchList extends TabActivity
 	EditText notes = null;
 	Button save = null;
 	ListView list = null;
+	Restaurant current = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -54,18 +57,43 @@ public class LunchList extends TabActivity
 		createTabs();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.option, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if(item.getItemId() == R.id.toast)
+		{
+			String message = "No restaurant selected";
+			if(current != null)
+			{
+				message = current.getNotes();
+			}
+			
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+			
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private View.OnClickListener onSave = new View.OnClickListener()
 	{
 		public void onClick(View v)
 		{
 			// TODO: Put this in a try/catch and show errors in a toast
-			Restaurant r = new Restaurant();
-			r.setDateVisited(visited.getMonth(), visited.getDayOfMonth(), visited.getYear());
-			r.setName(name.getText().toString());
-			r.setAddress(address.getText().toString());
-			setRestaurantType(r);
-			r.setNotes(notes.getText().toString());
-			restaurantsAdapter.add(r);
+			current = new Restaurant();
+			current.setDateVisited(visited.getMonth(), visited.getDayOfMonth(), visited.getYear());
+			current.setName(name.getText().toString());
+			current.setAddress(address.getText().toString());
+			setRestaurantType(current);
+			current.setNotes(notes.getText().toString());
+			restaurantsAdapter.add(current);
 		}
 	};
 	
@@ -73,17 +101,17 @@ public class LunchList extends TabActivity
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			Restaurant r = restaurants.get(position);
+			current = restaurants.get(position);
 			
-			visited.updateDate(r.getDateVisited().getYear(), r.getDateVisited().getMonth(), r.getDateVisited().getDate());
-			name.setText(r.getName());
-			address.setText(r.getAddress());
+			visited.updateDate(current.getDateVisited().getYear(), current.getDateVisited().getMonth(), current.getDateVisited().getDate());
+			name.setText(current.getName());
+			address.setText(current.getAddress());
 			
-			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
+			if(current.getType().equals(Restaurant.Type.SIT_DOWN))
 			{
 				typeGroup.check(R.id.sitdownRadio);
 			}
-			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
+			else if(current.getType().equals(Restaurant.Type.TAKE_OUT))
 			{
 				typeGroup.check(R.id.takeoutRadio);
 			}
@@ -92,7 +120,7 @@ public class LunchList extends TabActivity
 				typeGroup.check(R.id.deliveryRadio);
 			}
 			
-			notes.setText(r.getNotes());
+			notes.setText(current.getNotes());
 			
 			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
@@ -256,12 +284,5 @@ public class LunchList extends TabActivity
 		getTabHost().setCurrentTab(LIST_TAB_ID);
 		
 		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(R.menu.option, menu);
-		return true;
 	}
 }
