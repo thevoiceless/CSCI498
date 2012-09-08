@@ -36,8 +36,9 @@ public class LunchList extends TabActivity
 	EditText name = null;
 	EditText address = null;
 	RadioGroup typeGroup = null;
-	ListView list = null;
+	EditText notes = null;
 	Button save = null;
+	ListView list = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -164,12 +165,13 @@ public class LunchList extends TabActivity
 	
 	private void setDataMembers()
 	{
-		visited = (DatePicker) findViewById(R.id.visited);
-		name = (EditText) findViewById(R.id.name);
-		address = (EditText) findViewById(R.id.addr);
-		typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
-		list = (ListView) findViewById(R.id.restaurantsList);
-		save = (Button) findViewById(R.id.save);
+		visited 	= (DatePicker) findViewById(R.id.visited);
+		name 		= (EditText) findViewById(R.id.name);
+		address 	= (EditText) findViewById(R.id.addr);
+		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
+		notes 		= (EditText) findViewById(R.id.notes);
+		save 		= (Button) findViewById(R.id.save);
+		list 		= (ListView) findViewById(R.id.restaurantsList);
 	}
 	
 	private void setListeners()
