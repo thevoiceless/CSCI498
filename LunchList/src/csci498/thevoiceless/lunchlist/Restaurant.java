@@ -13,8 +13,11 @@ public class Restaurant
 	
 	// Not sure what to do about this
 	private Date visited;
+	
+	
 	private String name = "";
 	private String address = "";
+	private String notes = "";
 	private Type type;
 	
 	@Override
@@ -61,5 +64,15 @@ public class Restaurant
 	public void setDateVisited(int month, int day, int year)
 	{
 		this.visited = new Date(year, month, day);
+	}
+	
+	public String getNotes()
+	{
+		return notes;
+	}
+	
+	public void setNotes(String newNotes)
+	{
+		this.notes = newNotes;
 	}
 }
