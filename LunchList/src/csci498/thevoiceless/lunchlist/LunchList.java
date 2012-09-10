@@ -34,14 +34,14 @@ public class LunchList extends TabActivity
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
-	DatePicker visited = null;
-	EditText name = null;
-	EditText address = null;
+	DatePicker visited	= null;
+	EditText name		= null;
+	EditText address	= null;
 	RadioGroup typeGroup = null;
-	EditText notes = null;
-	Button save = null;
-	ListView list = null;
-	Restaurant current = null;
+	EditText notes		= null;
+	Button save			= null;
+	ListView list		= null;
+	Restaurant current	= null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -159,7 +159,7 @@ public class LunchList extends TabActivity
 				holder = (RestaurantHolder) row.getTag();
 			}
 			
-			holder.populateForm(restaurants.get(position));
+			holder.populateFrom(restaurants.get(position));
 			
 			return row;
 		}
@@ -178,7 +178,7 @@ public class LunchList extends TabActivity
 			rIcon 		= (ImageView) row.findViewById(R.id.icon);
 		}
 		
-		void populateForm(Restaurant r)
+		void populateFrom(Restaurant r)
 		{
 			rName.setText(r.getName());
 			rAddress.setText(r.getAddress());
