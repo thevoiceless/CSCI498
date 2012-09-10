@@ -133,6 +133,7 @@ public class LunchList extends TabActivity
 		}
 	};
 	
+	// If we implement our own adapter, we need to override getView to display stuff
 	class RestaurantAdapter extends ArrayAdapter<Restaurant>
 	{
 		RestaurantAdapter()
@@ -140,7 +141,6 @@ public class LunchList extends TabActivity
 			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
 		}
 		
-		// I don't really know what's going on here
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			View row = convertView;
@@ -148,6 +148,8 @@ public class LunchList extends TabActivity
 			
 			if(row == null)
 			{
+				// Create a new View object and assign it to row
+				// "Inflate" the XML into a View object
 				LayoutInflater inflater = getLayoutInflater();
 				row = inflater.inflate(R.layout.row, null);
 				
@@ -167,9 +169,9 @@ public class LunchList extends TabActivity
 	
 	static class RestaurantHolder
 	{
-		private TextView rName = null;
-		private TextView rAddress = null;
-		private ImageView rIcon = null;
+		private TextView rName 	= null;
+		private TextView rAddress 	= null;
+		private ImageView rIcon 	= null;
 		
 		RestaurantHolder(View row)
 		{
