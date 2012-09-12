@@ -1,5 +1,6 @@
 package csci498.thevoiceless.lunchlist;
 
+// Use GregorianCalendar instead
 import java.util.Date;
 
 public class Restaurant
