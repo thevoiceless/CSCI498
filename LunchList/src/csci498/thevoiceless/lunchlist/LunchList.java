@@ -7,11 +7,13 @@ import android.app.TabActivity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,11 +44,13 @@ public class LunchList extends TabActivity
 	Button save			= null;
 	ListView list		= null;
 	Restaurant current	= null;
+	int progress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
@@ -293,5 +297,21 @@ public class LunchList extends TabActivity
 		getTabHost().setCurrentTab(LIST_TAB_ID);
 		
 		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
+	}
+	
+	private Runnable longTask = new Runnable()
+	{
+		public void run()
+		{
+			for(int i = 0; i < 20; ++i)
+			{
+				doSomeLongWork(500);
+			}
+		}
+	}
+	
+	private void doSomeLongWork(final int incr)
+	{
+		SystemClock.sleep(250);
 	}
 }
