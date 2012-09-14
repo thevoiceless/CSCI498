@@ -92,7 +92,10 @@ public class LunchList extends TabActivity
 		}
 		else if(item.getItemId() == R.id.run)
 		{
+			setProgressBarVisibility(true);
+			progress = 0;
 			new Thread(longTask).start();
+			return true;
 		}
 		
 		return super.onOptionsItemSelected(item);
@@ -312,11 +315,30 @@ public class LunchList extends TabActivity
 			{
 				doSomeLongWork(500);
 			}
+			
+			runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					setProgressBarVisibility(false);
+				}
+			});
 		}
 	};
 	
 	private void doSomeLongWork(final int incr)
 	{
+		// Use runOnUiThread() to make sure progress bar update occurs on the UI thread
+
+		runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				progress += incr;
+				setProgress(progress);
+			}
+		});
+		
 		SystemClock.sleep(250);
 	}
 }
