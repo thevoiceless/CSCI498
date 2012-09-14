@@ -90,6 +90,11 @@ public class LunchList extends TabActivity
 			
 			return true;
 		}
+		else if(item.getItemId() == R.id.run)
+		{
+			new Thread(longTask).start();
+		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -308,7 +313,7 @@ public class LunchList extends TabActivity
 				doSomeLongWork(500);
 			}
 		}
-	}
+	};
 	
 	private void doSomeLongWork(final int incr)
 	{
