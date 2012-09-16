@@ -2,6 +2,7 @@ package csci498.thevoiceless.lunchlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.TabActivity;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ public class LunchList extends TabActivity
 	Button save			= null;
 	ListView list		= null;
 	Restaurant current	= null;
+	AtomicBoolean isActive;
 	int progress;
 
 	@Override
@@ -99,6 +101,13 @@ public class LunchList extends TabActivity
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		isActive.set(false);
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -219,7 +228,7 @@ public class LunchList extends TabActivity
 	{
 		public void run()
 		{
-			for(int i = progress; i < 10000; i += 200)
+			for(int i = progress; i < 10000 && isActive.get(); i += 200)
 			{
 				doSomeLongWork(200);
 			}
@@ -259,6 +268,7 @@ public class LunchList extends TabActivity
 		notes 		= (EditText) findViewById(R.id.notes);
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
+		isActive	= new AtomicBoolean(true);
 	}
 	
 	private void setListeners()
