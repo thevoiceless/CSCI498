@@ -94,9 +94,7 @@ public class LunchList extends TabActivity
 		}
 		else if(item.getItemId() == R.id.run)
 		{
-			setProgressBarVisibility(true);
-			progress = 0;
-			new Thread(longTask).start();
+			startWork();
 			return true;
 		}
 		
@@ -108,6 +106,17 @@ public class LunchList extends TabActivity
 	{
 		super.onPause();
 		isActive.set(false);
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		isActive.set(true);
+		if(progress > 0)
+		{
+			startWork();
+		}
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -233,13 +242,17 @@ public class LunchList extends TabActivity
 				doSomeLongWork(200);
 			}
 			
-			runOnUiThread(new Runnable()
+			if(isActive.get())
 			{
-				public void run()
+				runOnUiThread(new Runnable()
 				{
-					setProgressBarVisibility(false);
-				}
-			});
+					public void run()
+					{
+						setProgressBarVisibility(false);
+						progress = 0;
+					}
+				});
+			}
 		}
 	};
 	
@@ -257,6 +270,12 @@ public class LunchList extends TabActivity
 		});
 		
 		SystemClock.sleep(250);
+	}
+	
+	private void startWork()
+	{
+		setProgressBarVisibility(true);
+		new Thread(longTask).start();
 	}
 	
 	private void setDataMembers()
