@@ -215,6 +215,41 @@ public class LunchList extends TabActivity
 		}
 	}
 	
+	private Runnable longTask = new Runnable()
+	{
+		public void run()
+		{
+			for(int i = progress; i < 10000; i += 200)
+			{
+				doSomeLongWork(200);
+			}
+			
+			runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					setProgressBarVisibility(false);
+				}
+			});
+		}
+	};
+	
+	private void doSomeLongWork(final int incr)
+	{
+		// Use runOnUiThread() to make sure progress bar update occurs on the UI thread
+
+		runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				progress += incr;
+				setProgress(progress);
+			}
+		});
+		
+		SystemClock.sleep(250);
+	}
+	
 	private void setDataMembers()
 	{
 		visited 	= (DatePicker) findViewById(R.id.visited);
@@ -305,40 +340,5 @@ public class LunchList extends TabActivity
 		getTabHost().setCurrentTab(LIST_TAB_ID);
 		
 		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
-	}
-	
-	private Runnable longTask = new Runnable()
-	{
-		public void run()
-		{
-			for(int i = 0; i < 20; ++i)
-			{
-				doSomeLongWork(500);
-			}
-			
-			runOnUiThread(new Runnable()
-			{
-				public void run()
-				{
-					setProgressBarVisibility(false);
-				}
-			});
-		}
-	};
-	
-	private void doSomeLongWork(final int incr)
-	{
-		// Use runOnUiThread() to make sure progress bar update occurs on the UI thread
-
-		runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				progress += incr;
-				setProgress(progress);
-			}
-		});
-		
-		SystemClock.sleep(250);
 	}
 }
