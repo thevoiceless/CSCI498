@@ -56,8 +56,6 @@ public class LunchList extends TabActivity
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
-		//setFonts();
-		//addMoreRadioButtons();
 		setListeners();
 		setAdapters();
 		createTabs();
@@ -259,7 +257,6 @@ public class LunchList extends TabActivity
 	private void doSomeLongWork(final int incr)
 	{
 		// Use runOnUiThread() to make sure progress bar update occurs on the UI thread
-
 		runOnUiThread(new Runnable()
 		{
 			public void run()
@@ -296,24 +293,6 @@ public class LunchList extends TabActivity
 		list.setOnItemClickListener(onListClick);
 	}
 	
-	private void setFonts()
-	{
-		// TODO: See if it's possible to do all of this via iteration
-		
-		TextView nameLabel = (TextView) findViewById(R.id.nameLabel);
-		nameLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
-		TextView addrLabel = (TextView) findViewById(R.id.addrLabel);
-		addrLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
-		
-		name.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
-		address.setTypeface(Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf"));
-		
-		TextView typeLabel = (TextView) findViewById(R.id.typeLabel);
-		typeLabel.setTypeface(Typeface.createFromAsset(getAssets(), "Clemente-Bold.ttf"));
-		
-		// TODO: Figure out how to set the activity title font
-	}
-	
 	private void setRestaurantType(Restaurant r)
 	{
 		switch (typeGroup.getCheckedRadioButtonId())
@@ -327,20 +306,6 @@ public class LunchList extends TabActivity
 			case R.id.deliveryRadio:
 				r.setType(Restaurant.Type.DELIVERY);
 				break;
-		}
-	}
-	
-	/*
-	 * Add 10 more radio buttons to the "Type" button group
-	 * This was to practice adding radio buttons via code instead of XML
-	 */
-	private void addMoreRadioButtons()
-	{
-		for (int i = 0; i < 10; ++i)
-		{
-			RadioButton r = new RadioButton(this);
-			r.setText("Test" + i);
-			typeGroup.addView(r);
 		}
 	}
 	
