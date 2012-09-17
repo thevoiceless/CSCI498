@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- 
+    https://developer.android.com/reference/android/widget/ScrollView.html#onInterceptTouchEvent%28android.view.MotionEvent%29
+    Currently no way to avoid conflict between ScrollView and DatePicker
+     -->
+    <ScrollView
+        android:id="@+id/detailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <TableLayout
+            android:id="@+id/detailsTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:shrinkColumns="3"
+            android:stretchColumns="1,3" >
+            
+            <DatePicker
+                android:id="@+id/visited"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:calendarViewShown="false" />
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/nameLabel"
+                    android:layout_marginLeft="8px"
+                    android:text="Name:" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_marginRight="8px"
+                    android:inputType="text|textCapSentences|textAutoCorrect" />
+
+                <TextView
+                    android:id="@+id/addrLabel"
+                    android:layout_marginLeft="8px"
+                    android:text="Address:" />
+
+                <EditText
+                    android:id="@+id/addr"
+                    android:layout_marginRight="8px"
+                    android:inputType="textPostalAddress" />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/typeLabel"
+                    android:layout_marginLeft="8px"
+                    android:text="Type:" />
+
+                <RadioGroup
+                    android:id="@+id/typeGroup"
+                    android:layout_marginRight="8px" >
+
+                    <RadioButton
+                        android:id="@+id/takeoutRadio"
+                        android:checked="true"
+                        android:text="Take-Out" />
+
+                    <RadioButton
+                        android:id="@+id/sitdownRadio"
+                        android:text="Sit-Down" />
+
+                    <RadioButton
+                        android:id="@+id/deliveryRadio"
+                        android:text="Delivery" />
+                </RadioGroup>
+                
+                <TextView
+                    android:id="@+id/notesLabel"
+                    android:layout_marginLeft="8px"
+                    android:text="Notes:" />
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+                    
+                    <EditText
+                        android:id="@+id/notes"
+                        android:layout_marginRight="8px"
+                        android:gravity="top"
+                        android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
+                        android:lines="2"
+                        android:maxLines="3"
+                        android:maxWidth="200sp"
+                        android:scrollHorizontally="false"
+                        android:singleLine="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    
+                    <Button
+                        android:id="@+id/save"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8px"
+                        android:text="Save" />
+
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</RelativeLayout>
