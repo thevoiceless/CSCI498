@@ -37,7 +37,6 @@ public class LunchList extends TabActivity
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
-	DatePicker visited	= null;
 	EditText name		= null;
 	EditText address	= null;
 	RadioGroup typeGroup = null;
@@ -45,14 +44,11 @@ public class LunchList extends TabActivity
 	Button save			= null;
 	ListView list		= null;
 	Restaurant current	= null;
-	AtomicBoolean isActive;
-	int progress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
@@ -89,32 +85,8 @@ public class LunchList extends TabActivity
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			
 			return true;
-		}
-		else if(item.getItemId() == R.id.run)
-		{
-			startWork();
-			return true;
-		}
-		
+		}		
 		return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		isActive.set(false);
-	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		isActive.set(true);
-		if(progress > 0)
-		{
-			startWork();
-		}
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -123,7 +95,6 @@ public class LunchList extends TabActivity
 		{
 			// TODO: Put this in a try/catch and show errors in a toast
 			current = new Restaurant();
-			current.setDateVisited(visited.getMonth(), visited.getDayOfMonth(), visited.getYear());
 			current.setName(name.getText().toString());
 			current.setAddress(address.getText().toString());
 			setRestaurantType(current);
@@ -138,7 +109,6 @@ public class LunchList extends TabActivity
 		{
 			current = restaurants.get(position);
 			
-			visited.updateDate(current.getDateVisited().getYear(), current.getDateVisited().getMonth(), current.getDateVisited().getDate());
 			name.setText(current.getName());
 			address.setText(current.getAddress());
 			
@@ -231,60 +201,14 @@ public class LunchList extends TabActivity
 		}
 	}
 	
-	private Runnable longTask = new Runnable()
-	{
-		public void run()
-		{
-			for(int i = progress; i < 10000 && isActive.get(); i += 200)
-			{
-				doSomeLongWork(200);
-			}
-			
-			if(isActive.get())
-			{
-				runOnUiThread(new Runnable()
-				{
-					public void run()
-					{
-						setProgressBarVisibility(false);
-						progress = 0;
-					}
-				});
-			}
-		}
-	};
-	
-	private void doSomeLongWork(final int incr)
-	{
-		// Use runOnUiThread() to make sure progress bar update occurs on the UI thread
-		runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				progress += incr;
-				setProgress(progress);
-			}
-		});
-		
-		SystemClock.sleep(250);
-	}
-	
-	private void startWork()
-	{
-		setProgressBarVisibility(true);
-		new Thread(longTask).start();
-	}
-	
 	private void setDataMembers()
 	{
-		visited 	= (DatePicker) findViewById(R.id.visited);
 		name 		= (EditText) findViewById(R.id.name);
 		address 	= (EditText) findViewById(R.id.addr);
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
 		notes 		= (EditText) findViewById(R.id.notes);
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
-		isActive	= new AtomicBoolean(true);
 	}
 	
 	private void setListeners()
