@@ -37,13 +37,14 @@ public class LunchList extends TabActivity
 	List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
-	EditText name		= null;
-	EditText address	= null;
+	EditText name = null;
+	EditText address = null;
 	RadioGroup typeGroup = null;
-	EditText notes		= null;
-	Button save			= null;
-	ListView list		= null;
-	Restaurant current	= null;
+	EditText notes = null;
+	Button save = null;
+	ListView list = null;
+	Restaurant current = null;
+	RestaurantHelper dbHelper = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -62,6 +63,13 @@ public class LunchList extends TabActivity
 	{
 		getMenuInflater().inflate(R.menu.option, menu);
 		return true;
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		dbHelper.close();
 	}
 	
 	@Override
@@ -167,15 +175,15 @@ public class LunchList extends TabActivity
 	
 	static class RestaurantHolder
 	{
-		private TextView rName 	= null;
-		private TextView rAddress 	= null;
-		private ImageView rIcon 	= null;
+		private TextView rName = null;
+		private TextView rAddress = null;
+		private ImageView rIcon = null;
 		
 		RestaurantHolder(View row)
 		{
-			rName 		= (TextView) row.findViewById(R.id.title);
-			rAddress 	= (TextView) row.findViewById(R.id.address);
-			rIcon 		= (ImageView) row.findViewById(R.id.icon);
+			rName = (TextView) row.findViewById(R.id.title);
+			rAddress = (TextView) row.findViewById(R.id.address);
+			rIcon = (ImageView) row.findViewById(R.id.icon);
 		}
 		
 		void populateFrom(Restaurant r)
@@ -209,6 +217,7 @@ public class LunchList extends TabActivity
 		notes 		= (EditText) findViewById(R.id.notes);
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
+		dbHelper	= new RestaurantHelper(this);
 	}
 	
 	private void setListeners()
