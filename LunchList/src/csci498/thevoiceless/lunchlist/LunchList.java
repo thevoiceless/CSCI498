@@ -107,7 +107,11 @@ public class LunchList extends TabActivity
 			current.setAddress(address.getText().toString());
 			setRestaurantType(current);
 			current.setNotes(notes.getText().toString());
-			restaurantsAdapter.add(current);
+			//restaurantsAdapter.add(current);
+			dbHelper.insert(current.getName(), 
+					current.getAddress(),
+					current.getType(),
+					current.getNotes());
 		}
 	};
 	
