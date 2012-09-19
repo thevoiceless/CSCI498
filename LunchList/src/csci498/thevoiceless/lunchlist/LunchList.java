@@ -2,27 +2,23 @@ package csci498.thevoiceless.lunchlist;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.TabActivity;
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -34,7 +30,7 @@ public class LunchList extends TabActivity
 	private static final int LIST_TAB_ID = 0;
 	private static final int DETAILS_TAB_ID = 1;
 	// ArrayList of restaurants and its associated adapter
-	List<Restaurant> restaurants = new ArrayList<Restaurant>();
+	Cursor restaurants;
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
 	EditText name = null;
@@ -143,36 +139,28 @@ public class LunchList extends TabActivity
 		}
 	};
 	
-	// If we implement our own adapter, we need to override getView to display stuff
-	class RestaurantAdapter extends ArrayAdapter<Restaurant>
+	// CursorAdapter uses bindView() and newView() instead of getView()
+	class RestaurantAdapter extends CursorAdapter
 	{
-		RestaurantAdapter()
+		RestaurantAdapter(Cursor c)
 		{
-			super(LunchList.this, android.R.layout.simple_list_item_1, restaurants);
+			super(LunchList.this, c);
 		}
 		
-		public View getView(int position, View convertView, ViewGroup parent)
+		@Override
+		public void bindView(View row, Context context, Cursor cursor)
 		{
-			View row = convertView;
-			RestaurantHolder holder = null;
-			
-			if(row == null)
-			{
-				// Create a new View object and assign it to row
-				// "Inflate" the XML into a View object
-				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.row, null);
-				
-				holder = new RestaurantHolder(row);
-				row.setTag(holder);
-			}
-			else
-			{
-				holder = (RestaurantHolder) row.getTag();
-			}
-			
-			holder.populateFrom(restaurants.get(position));
-			
+			RestaurantHolder holder = (RestaurantHolder) row.getTag();
+			holder.populateFrom(cursor, dbHelper);
+		}
+		
+		@Override
+		public View newView(Context context, Cursor cursor, ViewGroup parent)
+		{
+			LayoutInflater inflater = getLayoutInflater();
+			View row = inflater.inflate(R.layout.row, parent, false);
+			RestaurantHolder holder = new RestaurantHolder(row);
+			row.setTag(holder);
 			return row;
 		}
 	}
@@ -190,17 +178,17 @@ public class LunchList extends TabActivity
 			rIcon = (ImageView) row.findViewById(R.id.icon);
 		}
 		
-		void populateFrom(Restaurant r)
+		void populateFrom(Cursor cursor, RestaurantHelper helper)
 		{
-			rName.setText(r.getName());
-			rAddress.setText(r.getAddress());
+			rName.setText(helper.getName(cursor));
+			rAddress.setText(helper.getAddress(cursor));
 			
-			if(r.getType().equals(Restaurant.Type.SIT_DOWN))
+			if(helper.getType(cursor).equals(Restaurant.Type.SIT_DOWN))
 			{
 				rIcon.setImageResource(R.drawable.green_circle);
 				rName.setTextColor(Color.rgb(0, 153, 0));
 			}
-			else if(r.getType().equals(Restaurant.Type.TAKE_OUT))
+			else if(helper.getType(cursor).equals(Restaurant.Type.TAKE_OUT))
 			{
 				rIcon.setImageResource(R.drawable.blue_circle);
 				rName.setTextColor(Color.BLUE);
@@ -215,6 +203,9 @@ public class LunchList extends TabActivity
 	
 	private void setDataMembers()
 	{
+		restaurants = dbHelper.getAll();
+		startManagingCursor(restaurants);
+		
 		name 		= (EditText) findViewById(R.id.name);
 		address 	= (EditText) findViewById(R.id.addr);
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
@@ -248,7 +239,7 @@ public class LunchList extends TabActivity
 	
 	private void setAdapters()
 	{
-		restaurantsAdapter = new RestaurantAdapter();
+		restaurantsAdapter = new RestaurantAdapter(restaurants);
 		list.setAdapter(restaurantsAdapter);
 	}
 	
