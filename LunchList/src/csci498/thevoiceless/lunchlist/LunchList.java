@@ -115,16 +115,16 @@ public class LunchList extends TabActivity
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			current = restaurants.get(position);
+			restaurants.moveToPosition(position);
+			name.setText(dbHelper.getName(restaurants));
+			address.setText(dbHelper.getAddress(restaurants));
+			notes.setText(dbHelper.getNotes(restaurants));
 			
-			name.setText(current.getName());
-			address.setText(current.getAddress());
-			
-			if(current.getType().equals(Restaurant.Type.SIT_DOWN))
+			if(dbHelper.getType(restaurants).equals(Restaurant.Type.SIT_DOWN))
 			{
 				typeGroup.check(R.id.sitdownRadio);
 			}
-			else if(current.getType().equals(Restaurant.Type.TAKE_OUT))
+			else if(dbHelper.getType(restaurants).equals(Restaurant.Type.TAKE_OUT))
 			{
 				typeGroup.check(R.id.takeoutRadio);
 			}
@@ -132,9 +132,6 @@ public class LunchList extends TabActivity
 			{
 				typeGroup.check(R.id.deliveryRadio);
 			}
-			
-			notes.setText(current.getNotes());
-			
 			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
 	};
@@ -202,10 +199,7 @@ public class LunchList extends TabActivity
 	}
 	
 	private void setDataMembers()
-	{
-		restaurants = dbHelper.getAll();
-		startManagingCursor(restaurants);
-		
+	{		
 		name 		= (EditText) findViewById(R.id.name);
 		address 	= (EditText) findViewById(R.id.addr);
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
@@ -213,6 +207,8 @@ public class LunchList extends TabActivity
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
 		dbHelper	= new RestaurantHelper(this);
+		restaurants = dbHelper.getAll();
+		startManagingCursor(restaurants);
 	}
 	
 	private void setListeners()
