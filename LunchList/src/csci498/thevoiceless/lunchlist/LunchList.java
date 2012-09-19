@@ -207,7 +207,6 @@ public class LunchList extends TabActivity
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
 		dbHelper	= new RestaurantHelper(this);
-		
 		restaurants = dbHelper.getAll();
 		startManagingCursor(restaurants);
 	}
