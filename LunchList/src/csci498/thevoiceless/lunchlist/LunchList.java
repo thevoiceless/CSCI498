@@ -29,7 +29,7 @@ public class LunchList extends TabActivity
 	// Tab ID values
 	private static final int LIST_TAB_ID = 0;
 	private static final int DETAILS_TAB_ID = 1;
-	// ArrayList of restaurants and its associated adapter
+	// Cursor for restaurants in the database, and its associated adapter
 	Cursor restaurants;
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
@@ -103,11 +103,11 @@ public class LunchList extends TabActivity
 			current.setAddress(address.getText().toString());
 			setRestaurantType(current);
 			current.setNotes(notes.getText().toString());
-			//restaurantsAdapter.add(current);
 			dbHelper.insert(current.getName(), 
 					current.getAddress(),
 					current.getType(),
 					current.getNotes());
+			restaurants.requery();
 		}
 	};
 	
@@ -207,6 +207,7 @@ public class LunchList extends TabActivity
 		save 		= (Button) findViewById(R.id.save);
 		list 		= (ListView) findViewById(R.id.restaurantsList);
 		dbHelper	= new RestaurantHelper(this);
+		
 		restaurants = dbHelper.getAll();
 		startManagingCursor(restaurants);
 	}
