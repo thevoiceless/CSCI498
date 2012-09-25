@@ -1,10 +1,8 @@
 package csci498.thevoiceless.lunchlist;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -115,24 +113,27 @@ public class LunchList extends TabActivity
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			restaurants.moveToPosition(position);
-			name.setText(dbHelper.getName(restaurants));
-			address.setText(dbHelper.getAddress(restaurants));
-			notes.setText(dbHelper.getNotes(restaurants));
+			Intent i = new Intent(LunchList.this, DetailForm.class);
+			startActivity(i);
 			
-			if(dbHelper.getType(restaurants).equals(Restaurant.Type.SIT_DOWN))
-			{
-				typeGroup.check(R.id.sitdownRadio);
-			}
-			else if(dbHelper.getType(restaurants).equals(Restaurant.Type.TAKE_OUT))
-			{
-				typeGroup.check(R.id.takeoutRadio);
-			}
-			else
-			{
-				typeGroup.check(R.id.deliveryRadio);
-			}
-			getTabHost().setCurrentTab(DETAILS_TAB_ID);
+//			restaurants.moveToPosition(position);
+//			name.setText(dbHelper.getName(restaurants));
+//			address.setText(dbHelper.getAddress(restaurants));
+//			notes.setText(dbHelper.getNotes(restaurants));
+//			
+//			if(dbHelper.getType(restaurants).equals(Restaurant.Type.SIT_DOWN))
+//			{
+//				typeGroup.check(R.id.sitdownRadio);
+//			}
+//			else if(dbHelper.getType(restaurants).equals(Restaurant.Type.TAKE_OUT))
+//			{
+//				typeGroup.check(R.id.takeoutRadio);
+//			}
+//			else
+//			{
+//				typeGroup.check(R.id.deliveryRadio);
+//			}
+//			getTabHost().setCurrentTab(DETAILS_TAB_ID);
 		}
 	};
 	
