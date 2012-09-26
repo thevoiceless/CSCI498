@@ -3,9 +3,11 @@ package csci498.thevoiceless.lunchlist;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,7 @@ public class LunchList extends ListActivity
 	Cursor restaurants;
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
+	SharedPreferences prefs = null;
 	RestaurantHelper dbHelper = null;
 	public final static String ID_EXTRA = "csci498.thevoiceless.lunchlist_ID";
 
@@ -139,8 +142,9 @@ public class LunchList extends ListActivity
 	
 	private void setDataMembers()
 	{
+		prefs		= PreferenceManager.getDefaultSharedPreferences(this);
 		dbHelper	= new RestaurantHelper(this);
-		restaurants = dbHelper.getAll();
+		restaurants = dbHelper.getAll(prefs.getString("sort_order", "name"));
 		startManagingCursor(restaurants);
 	}
 	
