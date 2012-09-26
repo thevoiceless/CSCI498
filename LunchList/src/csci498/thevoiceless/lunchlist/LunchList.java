@@ -1,6 +1,6 @@
 package csci498.thevoiceless.lunchlist;
 
-import android.app.TabActivity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,36 +9,22 @@ import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class LunchList extends TabActivity
+public class LunchList extends ListActivity
 {
-	// Tab ID values
-	private static final int LIST_TAB_ID = 0;
-	private static final int DETAILS_TAB_ID = 1;
 	// Cursor for restaurants in the database, and its associated adapter
 	Cursor restaurants;
 	RestaurantAdapter restaurantsAdapter = null;
 	// Data members from the view
-	EditText name = null;
-	EditText address = null;
-	RadioGroup typeGroup = null;
-	EditText notes = null;
-	Button save = null;
-	ListView list = null;
-	Restaurant current = null;
 	RestaurantHelper dbHelper = null;
+	public final static String ID_EXTRA = "csci498.thevoiceless.lunchlist_ID";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -47,16 +33,26 @@ public class LunchList extends TabActivity
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
-		setListeners();
 		setAdapters();
-		createTabs();
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.option, menu);
-		return true;
+		// Not sure why we got rid of getMenuInflater()...
+		new MenuInflater(this).inflate(R.menu.option, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if(item.getItemId() == R.id.add)
+		{
+			startActivity(new Intent(LunchList.this, DetailForm.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -67,75 +63,12 @@ public class LunchList extends TabActivity
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
+	public void onListItemClick(ListView list, View view, int position, long id)
 	{
-		if(item.getItemId() == R.id.toast)
-		{
-			String message = "No restaurant selected";
-			if(current != null)
-			{
-				if(current.getNotes().length() == 0)
-				{
-					message = "No notes for the current restaurant";
-				}
-				else
-				{
-					message = current.getNotes();
-				}
-			}
-			
-			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-			
-			return true;
-		}		
-		return super.onOptionsItemSelected(item);
+		Intent i = new Intent(LunchList.this, DetailForm.class);
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		startActivity(i);
 	}
-	
-	private View.OnClickListener onSave = new View.OnClickListener()
-	{
-		public void onClick(View v)
-		{
-			// TODO: Put this in a try/catch and show errors in a toast
-			current = new Restaurant();
-			current.setName(name.getText().toString());
-			current.setAddress(address.getText().toString());
-			setRestaurantType(current);
-			current.setNotes(notes.getText().toString());
-			dbHelper.insert(current.getName(), 
-					current.getAddress(),
-					current.getType(),
-					current.getNotes());
-			restaurants.requery();
-		}
-	};
-	
-	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener()
-	{
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-		{
-			Intent i = new Intent(LunchList.this, DetailForm.class);
-			startActivity(i);
-			
-//			restaurants.moveToPosition(position);
-//			name.setText(dbHelper.getName(restaurants));
-//			address.setText(dbHelper.getAddress(restaurants));
-//			notes.setText(dbHelper.getNotes(restaurants));
-//			
-//			if(dbHelper.getType(restaurants).equals(Restaurant.Type.SIT_DOWN))
-//			{
-//				typeGroup.check(R.id.sitdownRadio);
-//			}
-//			else if(dbHelper.getType(restaurants).equals(Restaurant.Type.TAKE_OUT))
-//			{
-//				typeGroup.check(R.id.takeoutRadio);
-//			}
-//			else
-//			{
-//				typeGroup.check(R.id.deliveryRadio);
-//			}
-//			getTabHost().setCurrentTab(DETAILS_TAB_ID);
-		}
-	};
 	
 	// CursorAdapter uses bindView() and newView() instead of getView()
 	class RestaurantAdapter extends CursorAdapter
@@ -200,64 +133,15 @@ public class LunchList extends TabActivity
 	}
 	
 	private void setDataMembers()
-	{		
-		name 		= (EditText) findViewById(R.id.name);
-		address 	= (EditText) findViewById(R.id.addr);
-		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
-		notes 		= (EditText) findViewById(R.id.notes);
-		save 		= (Button) findViewById(R.id.save);
-		list 		= (ListView) findViewById(R.id.restaurantsList);
+	{
 		dbHelper	= new RestaurantHelper(this);
 		restaurants = dbHelper.getAll();
 		startManagingCursor(restaurants);
 	}
 	
-	private void setListeners()
-	{
-		save.setOnClickListener(onSave);
-		list.setOnItemClickListener(onListClick);
-	}
-	
-	private void setRestaurantType(Restaurant r)
-	{
-		switch (typeGroup.getCheckedRadioButtonId())
-		{
-			case R.id.sitdownRadio:
-				r.setType(Restaurant.Type.SIT_DOWN);
-				break;
-			case R.id.takeoutRadio:
-				r.setType(Restaurant.Type.TAKE_OUT);
-				break;
-			case R.id.deliveryRadio:
-				r.setType(Restaurant.Type.DELIVERY);
-				break;
-		}
-	}
-	
 	private void setAdapters()
 	{
 		restaurantsAdapter = new RestaurantAdapter(restaurants);
-		list.setAdapter(restaurantsAdapter);
-	}
-	
-	private void createTabs()
-	{
-		// https://developer.android.com/reference/android/widget/TabHost.TabSpec.html
-		// getTabHost() returns the TabHost that the activity is using to host its tabs
-		// TabHost holds two children: a set of tab labels that the user clicks to select a specific tab, and a FrameLayout object that displays the contents of that page
-		TabHost.TabSpec tab = getTabHost().newTabSpec("tag1");
-		
-		tab.setContent(R.id.restaurantsList);
-		tab.setIndicator("List", getResources().getDrawable(R.drawable.list));
-		getTabHost().addTab(tab);
-		
-		tab = getTabHost().newTabSpec("tag2");
-		tab.setContent(R.id.details);
-		tab.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-		getTabHost().addTab(tab);
-		
-		getTabHost().setCurrentTab(LIST_TAB_ID);
-		
-		// TODO: Figure out how to hide the keyboard when switching to the "list" tab
+		setListAdapter(restaurantsAdapter);
 	}
 }
