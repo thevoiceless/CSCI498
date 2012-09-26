@@ -36,7 +36,6 @@ public class LunchList extends ListActivity
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
-		setAdapters();
 	}
 	
 	@Override
@@ -140,12 +139,39 @@ public class LunchList extends ListActivity
 		}
 	}
 	
+	private SharedPreferences.OnSharedPreferenceChangeListener prefListener =
+			new SharedPreferences.OnSharedPreferenceChangeListener()
+	{
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key)
+		{
+			if(key.equals("sort_order"))
+			{
+				initList();
+			}
+		}
+	};
+	
 	private void setDataMembers()
 	{
 		prefs		= PreferenceManager.getDefaultSharedPreferences(this);
 		dbHelper	= new RestaurantHelper(this);
+		
+		initList();
+		prefs.registerOnSharedPreferenceChangeListener(prefListener);
+	}
+	
+	private void initList()
+	{
+		if(restaurants != null)
+		{
+			stopManagingCursor(restaurants);
+			restaurants.close();
+		}
+		
 		restaurants = dbHelper.getAll(prefs.getString("sort_order", "name"));
 		startManagingCursor(restaurants);
+		setAdapters();
 	}
 	
 	private void setAdapters()
