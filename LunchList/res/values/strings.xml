@@ -7,6 +7,8 @@
     
     <!-- Restaurants list -->
     <string name="no_restaurants">Click the Menu button to add a restaurant.</string>
+    <string name="placeholder_title">Title</string>
+    <string name="placeholder_textview">TextView</string>
     
     <!-- Restaurant form -->
     <string name="label_name">Name:</string>

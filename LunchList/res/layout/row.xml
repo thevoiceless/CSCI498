@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Title"
+            android:text="@string/placeholder_title"
             android:textStyle="bold" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="TextView" />
+            android:text="@string/placeholder_textview" />
     </LinearLayout>
 
 </LinearLayout>
