@@ -35,6 +35,17 @@ public class DetailForm extends Activity
 		dbHelper.close();
 	}
 	
+	@Override
+	public void onSaveInstanceState(Bundle state)
+	{
+		super.onSaveInstanceState(state);
+		
+		state.putString("name", name.getText().toString());
+		state.putString("address", address.getText().toString());
+		state.putString("notes", notes.getText().toString());
+		state.putInt("type", typeGroup.getCheckedRadioButtonId());
+	}
+	
 	private View.OnClickListener onSave = new View.OnClickListener()
 	{
 		public void onClick(View v)
