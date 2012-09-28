@@ -41,7 +41,6 @@ public class LunchList extends ListActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Not sure why we got rid of getMenuInflater()...
 		new MenuInflater(this).inflate(R.menu.option, menu);
 		return super.onCreateOptionsMenu(menu);
 	}

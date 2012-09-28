@@ -14,6 +14,10 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	private static final int ADDR_INT = 2;
 	private static final int TYPE_INT = 3;
 	private static final int NOTES_INT = 4;
+	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);";
+	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?";
+	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes FROM restaurants ORDER BY ";
+	
 	
 	public RestaurantHelper(Context context)
 	{
@@ -23,7 +27,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);");
+		db.execSQL(DB_CREATE);
 	}
 	
 	@Override
@@ -48,7 +52,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public Cursor getById(String id)
 	{
 		String[] args = {id};
-		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?", args);
+		return getReadableDatabase().rawQuery(DB_GET_BY_ID, args);
 	}
 	
 	public void insert(String name, String address, Restaurant.Type type, String notes)
@@ -63,7 +67,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	
 	public Cursor getAll(String orderBy)
 	{
-		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY " + orderBy, null);
+		return getReadableDatabase().rawQuery(DB_GET_ALL_ORDER_BY + orderBy, null);
 	}
 	
 	public String getName(Cursor c)
