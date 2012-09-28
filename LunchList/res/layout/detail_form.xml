@@ -21,12 +21,12 @@
 
                 <TextView
                     android:id="@+id/nameLabel"
-                    android:layout_marginLeft="8px"
-                    android:text="Name:" />
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/label_name" />
 
                 <EditText
                     android:id="@+id/name"
-                    android:layout_marginRight="8px"
+                    android:layout_marginRight="8dp"
                     android:inputType="text|textCapSentences|textAutoCorrect" />
             </TableRow>
 
@@ -34,12 +34,12 @@
 
                 <TextView
                     android:id="@+id/addrLabel"
-                    android:layout_marginLeft="8px"
-                    android:text="Address:" />
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/label_addr" />
 
                 <EditText
                     android:id="@+id/addr"
-                    android:layout_marginRight="8px"
+                    android:layout_marginRight="8dp"
                     android:inputType="textPostalAddress" />
             </TableRow>
 
@@ -47,25 +47,25 @@
 
                 <TextView
                     android:id="@+id/typeLabel"
-                    android:layout_marginLeft="8px"
-                    android:text="Type:" />
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/label_type" />
 
                 <RadioGroup
                     android:id="@+id/typeGroup"
-                    android:layout_marginRight="8px" >
+                    android:layout_marginRight="8dp" >
 
                     <RadioButton
                         android:id="@+id/takeoutRadio"
                         android:checked="true"
-                        android:text="Take-Out" />
+                        android:text="@string/radio_takeout" />
 
                     <RadioButton
                         android:id="@+id/sitdownRadio"
-                        android:text="Sit-Down" />
+                        android:text="@string/radio_sitdown" />
 
                     <RadioButton
                         android:id="@+id/deliveryRadio"
-                        android:text="Delivery" />
+                        android:text="@string/radio_delivery" />
                 </RadioGroup>
             </TableRow>
 
@@ -73,12 +73,12 @@
 
                 <TextView
                     android:id="@+id/notesLabel"
-                    android:layout_marginLeft="8px"
-                    android:text="Notes:" />
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/label_notes" />
 
                 <EditText
                     android:id="@+id/notes"
-                    android:layout_marginRight="8px"
+                    android:layout_marginRight="8dp"
                     android:gravity="top"
                     android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
                     android:lines="2"
@@ -92,8 +92,8 @@
                 android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8px"
-                android:text="Save" />
+                android:layout_margin="8dp"
+                android:text="@string/button_save" />
         </TableLayout>
     </ScrollView>
 
