@@ -46,6 +46,17 @@ public class DetailForm extends Activity
 		state.putInt("type", typeGroup.getCheckedRadioButtonId());
 	}
 	
+	@Override
+	public void onRestoreInstanceState(Bundle state)
+	{
+		super.onRestoreInstanceState(state);
+		
+		name.setText(state.getString("name"));
+		address.setText(state.getString("address"));
+		notes.setText(state.getString("notes"));
+		typeGroup.check(state.getInt("type"));
+	}
+	
 	private View.OnClickListener onSave = new View.OnClickListener()
 	{
 		public void onClick(View v)
