@@ -1,14 +1,19 @@
 package csci498.thevoiceless.lunchlist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class DetailForm extends Activity
 {
@@ -32,6 +37,13 @@ public class DetailForm extends Activity
 	}
 	
 	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		dbHelper.close();
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		new MenuInflater(this).inflate(R.menu.details_option, menu);
@@ -39,10 +51,23 @@ public class DetailForm extends Activity
 	}
 	
 	@Override
-	public void onDestroy()
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		super.onDestroy();
-		dbHelper.close();
+		if(item.getItemId() == R.id.feed)
+		{
+			if(isNetworkAvailable())
+			{
+				Intent i = new Intent(this, FeedActivity.class);
+				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+				startActivity(i);
+			}
+			else
+			{
+				Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -155,5 +180,12 @@ public class DetailForm extends Activity
 		}
 		
 		c.close();
+	}
+	
+	private boolean isNetworkAvailable()
+	{
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo connection = cm.getActiveNetworkInfo();
+		return (connection != null);
 	}
 }
