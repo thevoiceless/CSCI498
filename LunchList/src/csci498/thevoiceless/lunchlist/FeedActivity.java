@@ -1,9 +1,7 @@
 package csci498.thevoiceless.lunchlist;
 
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.mcsoxford.rss.RSSFeed;
+import org.mcsoxford.rss.RSSReader;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -12,8 +10,9 @@ import android.util.Log;
 
 public class FeedActivity extends ListActivity
 {
-	private static class FeedTask extends AsyncTask<String, Void, Void>
+	private static class FeedTask extends AsyncTask<String, Void, RSSFeed>
 	{
+		private RSSReader reader = new RSSReader();
 		private Exception e = null;
 		private FeedActivity activity = null;
 		
@@ -22,40 +21,48 @@ public class FeedActivity extends ListActivity
 			attach(activity);
 		}
 		
-		@Override
-		public Void doInBackground(String... urls)
+		void attach(FeedActivity activity)
 		{
+			this.activity = activity;
+		}
+		
+		void detach()
+		{
+			this.activity = null;
+		}
+		
+		@Override
+		public RSSFeed doInBackground(String... urls)
+		{
+			RSSFeed result = null;
+			
 			try
 			{
-				DefaultHttpClient client = new DefaultHttpClient();
-				HttpGet httpRequest = new HttpGet(urls[0]);
-				ResponseHandler<String> responseHandler = new BasicResponseHandler();
-				String responseBody = client.execute(httpRequest, responseHandler);
-				Log.d("FeedActivity", responseBody);
+				result = reader.load(urls[0]);
 			}
 			catch(Exception e)
 			{
 				this.e = e;
 			}
-			return null;
+			return result;
 		}
 		
 		@Override
-		public void onPostExecute(Void unused)
+		public void onPostExecute(RSSFeed feed)
 		{
-			if (e == null)
+			if(e == null)
 			{
-				// TODO
+				activity.setFeed(feed);
 			}
 			else
 			{
-				Log.e("LunchList", "Exception parsing feed", e);
-				activity.die(e);
+				Log.e("LunchList", "Exception while parsing feed", e);
+				activity.showException(e);
 			}
 		}
 	}
 	
-	private void die(Throwable t)
+	private void showException(Throwable t)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
