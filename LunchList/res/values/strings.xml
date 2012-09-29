@@ -6,9 +6,12 @@
     <string name="title_activity_lunch_list">Lunch List</string>
     <string name="ok">OK</string>
     
+    <!-- Menus -->
+    <string name="add_restaurant">Add Restaurant</string>
+    <string name="settings">Settings</string>
     
     <!-- Restaurants list -->
-    <string name="no_restaurants">Click the Menu button to add a restaurant.</string>
+    <string name="no_restaurants">Open the menu to add a restaurant.</string>
     
     <string name="placeholder_title">Title</string>
     <string name="placeholder_textview">TextView</string>
