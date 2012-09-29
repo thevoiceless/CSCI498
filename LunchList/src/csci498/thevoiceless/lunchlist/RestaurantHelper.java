@@ -7,17 +7,30 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class RestaurantHelper extends SQLiteOpenHelper
-{
+{	
+	// Names and indices
 	private static final String DATABASE_NAME = "lunchlist.db";
-	private static final int SCHEMA_VERSION = 1;
+	private static final String TABLE_RESTAURANTS = "restaurants";
+	private static final String COL_NAME = "name";
+	private static final String COL_ADDR = "address";
+	private static final String COL_TYPE = "type";
+	private static final String COL_NOTES = "notes";
+	private static final String COL_FEED = "feed";
 	private static final int NAME_INT = 1;
 	private static final int ADDR_INT = 2;
 	private static final int TYPE_INT = 3;
 	private static final int NOTES_INT = 4;
-	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);";
-	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?";
-	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes FROM restaurants ORDER BY ";
+	private static final int FEED_INT = 5;
 	
+	private static final int SCHEMA_VERSION = 2;
+	// Version 2
+	private static final String SCHEMA_UPGRADE_V2 = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
+	
+	// SQL statements
+	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT);";
+	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes, feed FROM restaurants WHERE _ID=?";
+	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes, feed FROM restaurants ORDER BY ";
+	private static final String ID_MATCH_ARGS = "_ID=?";
 	
 	public RestaurantHelper(Context context)
 	{
@@ -33,20 +46,22 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// Not needed yet
+		// Schema version 2: add "feed" column
+		db.execSQL(SCHEMA_UPGRADE_V2);
 	}
 	
-	public void update(String id, String name, String address, Restaurant.Type type, String notes)
+	public void update(String id, String name, String address, Restaurant.Type type, String notes, String feed)
 	{
 		ContentValues cv = new ContentValues();
 		String[] args = {id};
 		
-		cv.put("name", name);
-		cv.put("address", address);
-		cv.put("type", type.toString());
-		cv.put("notes", notes);
+		cv.put(COL_NAME, name);
+		cv.put(COL_ADDR, address);
+		cv.put(COL_TYPE, type.toString());
+		cv.put(COL_NOTES, notes);
+		cv.put(COL_FEED, feed);
 		
-		getWritableDatabase().update("restaurants", cv, "_ID=?", args);
+		getWritableDatabase().update(TABLE_RESTAURANTS, cv, ID_MATCH_ARGS, args);
 	}
 	
 	public Cursor getById(String id)
@@ -55,14 +70,15 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		return getReadableDatabase().rawQuery(DB_GET_BY_ID, args);
 	}
 	
-	public void insert(String name, String address, Restaurant.Type type, String notes)
+	public void insert(String name, String address, Restaurant.Type type, String notes, String feed)
 	{
 		ContentValues cv = new ContentValues();
-		cv.put("name", name);
-		cv.put("address", address);
-		cv.put("type", type.toString());
-		cv.put("notes", notes);
-		getWritableDatabase().insert("restaurants", "name", cv);
+		cv.put(COL_NAME, name);
+		cv.put(COL_ADDR, address);
+		cv.put(COL_TYPE, type.toString());
+		cv.put(COL_NOTES, notes);
+		cv.put(COL_FEED, feed);
+		getWritableDatabase().insert(TABLE_RESTAURANTS, COL_NAME, cv);
 	}
 	
 	public Cursor getAll(String orderBy)
@@ -100,5 +116,10 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public String getNotes(Cursor c)
 	{
 		return c.getString(NOTES_INT);
+	}
+	
+	public String getFeed(Cursor c)
+	{
+		return c.getString(FEED_INT);
 	}
 }
