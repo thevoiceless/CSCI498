@@ -1,100 +1,92 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/details"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detailsScroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" >
 
-    <ScrollView
-        android:id="@+id/detailsScroll"
+    <TableLayout
+        android:id="@+id/detailsTable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="4dip"
+        android:shrinkColumns="1"
+        android:stretchColumns="1" >
 
-        <TableLayout
-            android:id="@+id/detailsTable"
+        <TableRow>
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_marginLeft="8dp"
+                android:text="@string/label_name" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_marginRight="8dp"
+                android:inputType="text|textCapSentences|textAutoCorrect" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/addrLabel"
+                android:layout_marginLeft="8dp"
+                android:text="@string/label_addr" />
+
+            <EditText
+                android:id="@+id/addr"
+                android:layout_marginRight="8dp"
+                android:inputType="textPostalAddress" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/typeLabel"
+                android:layout_marginLeft="8dp"
+                android:text="@string/label_type" />
+
+            <RadioGroup
+                android:id="@+id/typeGroup"
+                android:layout_marginRight="8dp" >
+
+                <RadioButton
+                    android:id="@+id/takeoutRadio"
+                    android:checked="true"
+                    android:text="@string/radio_takeout" />
+
+                <RadioButton
+                    android:id="@+id/sitdownRadio"
+                    android:text="@string/radio_sitdown" />
+
+                <RadioButton
+                    android:id="@+id/deliveryRadio"
+                    android:text="@string/radio_delivery" />
+            </RadioGroup>
+        </TableRow>
+        
+        <EditText
+            android:id="@+id/notes"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="top"
+            android:hint="@string/hint_notes"
+            android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="2"
+            android:maxLines="2"
+            android:maxWidth="200sp"
+            android:scrollHorizontally="false"
+            android:singleLine="false" />
+
+        <EditText
+            android:id="@+id/feed"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="@string/hint_feed" />
+
+        <Button
+            android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dip"
-            android:shrinkColumns="1"
-            android:stretchColumns="1" >
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/nameLabel"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/label_name" />
-
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_marginRight="8dp"
-                    android:inputType="text|textCapSentences|textAutoCorrect" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/addrLabel"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/label_addr" />
-
-                <EditText
-                    android:id="@+id/addr"
-                    android:layout_marginRight="8dp"
-                    android:inputType="textPostalAddress" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/typeLabel"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/label_type" />
-
-                <RadioGroup
-                    android:id="@+id/typeGroup"
-                    android:layout_marginRight="8dp" >
-
-                    <RadioButton
-                        android:id="@+id/takeoutRadio"
-                        android:checked="true"
-                        android:text="@string/radio_takeout" />
-
-                    <RadioButton
-                        android:id="@+id/sitdownRadio"
-                        android:text="@string/radio_sitdown" />
-
-                    <RadioButton
-                        android:id="@+id/deliveryRadio"
-                        android:text="@string/radio_delivery" />
-                </RadioGroup>
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/notesLabel"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/label_notes" />
-
-                <EditText
-                    android:id="@+id/notes"
-                    android:layout_marginRight="8dp"
-                    android:gravity="top"
-                    android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"
-                    android:lines="2"
-                    android:maxLines="2"
-                    android:maxWidth="200sp"
-                    android:scrollHorizontally="false"
-                    android:singleLine="false" />
-            </TableRow>
-
-            <Button
-                android:id="@+id/save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/button_save" />
-        </TableLayout>
-    </ScrollView>
-
-</LinearLayout>
+            android:layout_margin="8dp"
+            android:text="@string/button_save" />
+    </TableLayout>
+</ScrollView>
