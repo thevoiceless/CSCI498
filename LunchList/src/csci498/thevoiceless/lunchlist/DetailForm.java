@@ -14,6 +14,7 @@ public class DetailForm extends Activity
 	EditText address = null;
 	RadioGroup typeGroup = null;
 	EditText notes = null;
+	EditText feed = null;
 	Button save = null;
 	RestaurantHelper dbHelper = null;
 	String restaurantId = null;
@@ -42,8 +43,9 @@ public class DetailForm extends Activity
 		
 		state.putString("name", name.getText().toString());
 		state.putString("address", address.getText().toString());
-		state.putString("notes", notes.getText().toString());
 		state.putInt("type", typeGroup.getCheckedRadioButtonId());
+		state.putString("notes", notes.getText().toString());
+		state.putString("feed", feed.getText().toString());
 	}
 	
 	@Override
@@ -53,8 +55,9 @@ public class DetailForm extends Activity
 		
 		name.setText(state.getString("name"));
 		address.setText(state.getString("address"));
-		notes.setText(state.getString("notes"));
 		typeGroup.check(state.getInt("type"));
+		notes.setText(state.getString("notes"));
+		feed.setText(state.getString("feed"));
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener()
@@ -80,7 +83,8 @@ public class DetailForm extends Activity
 				dbHelper.insert(name.getText().toString(),
 						address.getText().toString(),
 						type,
-						notes.getText().toString());
+						notes.getText().toString(),
+						feed.getText().toString());
 			}
 			else
 			{
@@ -88,7 +92,8 @@ public class DetailForm extends Activity
 						name.getText().toString(),
 						address.getText().toString(),
 						type,
-						notes.getText().toString());
+						notes.getText().toString(),
+						feed.getText().toString());
 			}
 			
 			finish();
@@ -101,6 +106,7 @@ public class DetailForm extends Activity
 		address 	= (EditText) findViewById(R.id.addr);
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
 		notes 		= (EditText) findViewById(R.id.notes);
+		feed		= (EditText) findViewById(R.id.feed);
 		save 		= (Button) findViewById(R.id.save);
 		dbHelper	= new RestaurantHelper(this);
 		restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
@@ -124,6 +130,7 @@ public class DetailForm extends Activity
 		name.setText(dbHelper.getName(c));
 		address.setText(dbHelper.getAddress(c));
 		notes.setText(dbHelper.getNotes(c));
+		feed.setText(dbHelper.getFeed(c));
 		
 		if(dbHelper.getType(c).equals(Restaurant.Type.SIT_DOWN))
 		{
