@@ -47,7 +47,10 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
 		// Schema version 2: add "feed" column
-		db.execSQL(SCHEMA_UPGRADE_V2);
+		if(newVersion == 2)
+		{
+			db.execSQL(SCHEMA_UPGRADE_V2);
+		}
 	}
 	
 	public void update(String id, String name, String address, Restaurant.Type type, String notes, String feed)
