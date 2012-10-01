@@ -23,7 +23,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	private static final int FEED_INT = 5;
 	
 	private static final int SCHEMA_VERSION = 2;
-	// Version 2
+	// Schema version 2: add "feed" column
 	private static final String SCHEMA_UPGRADE_V2 = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
 	
 	// SQL statements
@@ -46,10 +46,12 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// Schema version 2: add "feed" column
-		if(newVersion == 2)
+		// Switch with no breaks, so upgrades will cascade
+		switch(oldVersion)
 		{
-			db.execSQL(SCHEMA_UPGRADE_V2);
+			// Upgrade from v1 to current
+			case 1:
+				db.execSQL(SCHEMA_UPGRADE_V2);
 		}
 	}
 	
