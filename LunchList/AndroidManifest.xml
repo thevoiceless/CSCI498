@@ -10,10 +10,10 @@
     <supports-screens android:normalScreens="true"
         android:largeScreens="true"
         android:xlargeScreens="true"
-        android:smallScreens="false"/>
+        android:smallScreens="false" />
     
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:icon="@drawable/fork"
@@ -34,6 +34,7 @@
         <activity android:name=".DetailForm" />
         <activity android:name=".EditPreferences" />
         <activity android:name=".FeedActivity" />
+        <service android:name=".FeedService" />
+        
     </application>
-
 </manifest>
