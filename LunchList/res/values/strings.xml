@@ -36,6 +36,8 @@
     <string name="no_connection">No internet connection available</string>
     <string name="exception">Exception!</string>
     
+    <!-- Feed Service -->
+    <string name="feed_service">FeedService</string>
     
     <!-- Logging -->
     <string name="activity_feed">FeedActivity</string>
