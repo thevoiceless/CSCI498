@@ -22,7 +22,6 @@ public class DetailForm extends Activity
 	RadioGroup typeGroup = null;
 	EditText notes = null;
 	EditText feed = null;
-	Button save = null;
 	RestaurantHelper dbHelper = null;
 	String restaurantId = null;
 	
@@ -33,7 +32,6 @@ public class DetailForm extends Activity
 		setContentView(R.layout.detail_form);
 		
 		setDataMembers();
-		setListeners();
 	}
 	
 	@Override
@@ -55,55 +53,27 @@ public class DetailForm extends Activity
 	{
 		if(item.getItemId() == R.id.menu_feed)
 		{
-			if(isNetworkAvailable())
-			{
-				Intent i = new Intent(this, FeedActivity.class);
-				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
-				startActivity(i);
-			}
-			else
-			{
-				Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
-			}
-			return true;
+			tryToOpenFeed();
 		}
 		else if (item.getItemId() == R.id.menu_save)
 		{
-			Restaurant.Type type = null;
-			switch(typeGroup.getCheckedRadioButtonId())
-			{
-				case R.id.sitdownRadio:
-					type = Restaurant.Type.SIT_DOWN;
-					break;
-				case R.id.takeoutRadio:
-					type = Restaurant.Type.TAKE_OUT;
-					break;
-				case R.id.deliveryRadio:
-					type = Restaurant.Type.DELIVERY;
-					break;
-			}
-			
-			if(restaurantId == null)
-			{
-				dbHelper.insert(name.getText().toString(),
-						address.getText().toString(),
-						type,
-						notes.getText().toString(),
-						feed.getText().toString());
-			}
-			else
-			{
-				dbHelper.update(restaurantId,
-						name.getText().toString(),
-						address.getText().toString(),
-						type,
-						notes.getText().toString(),
-						feed.getText().toString());
-			}
-			
-			finish();
+			saveRestaurant();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void tryToOpenFeed()
+	{
+		if(isNetworkAvailable())
+		{
+			Intent i = new Intent(this, FeedActivity.class);
+			i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+			startActivity(i);
+		}
+		else
+		{
+			Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	@Override
@@ -130,9 +100,9 @@ public class DetailForm extends Activity
 		feed.setText(state.getString("feed"));
 	}
 	
-	private View.OnClickListener onSave = new View.OnClickListener()
+	private void saveRestaurant()
 	{
-		public void onClick(View v)
+		if (name.getText().toString().length() > 0)
 		{
 			Restaurant.Type type = null;
 			switch(typeGroup.getCheckedRadioButtonId())
@@ -168,7 +138,11 @@ public class DetailForm extends Activity
 			
 			finish();
 		}
-	};
+		else
+		{
+			Toast.makeText(this, R.string.name_required, Toast.LENGTH_LONG).show();
+		}
+	}
 	
 	private void setDataMembers()
 	{		
@@ -177,7 +151,6 @@ public class DetailForm extends Activity
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
 		notes 		= (EditText) findViewById(R.id.notes);
 		feed		= (EditText) findViewById(R.id.feed);
-		save 		= (Button) findViewById(R.id.save);
 		dbHelper	= new RestaurantHelper(this);
 		restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
 		
@@ -185,11 +158,6 @@ public class DetailForm extends Activity
 		{
 			load();
 		}
-	}
-	
-	private void setListeners()
-	{
-		save.setOnClickListener(onSave);
 	}
 	
 	private void load()

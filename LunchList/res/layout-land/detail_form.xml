@@ -89,13 +89,6 @@
                     android:layout_marginRight="8dp"
                     android:hint="@string/hint_feed" />
                 
-                <Button
-                    android:id="@+id/save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:paddingTop="4dip"
-                    android:text="@string/action_save" />
             </LinearLayout>
         </TableRow>
     </TableLayout>
