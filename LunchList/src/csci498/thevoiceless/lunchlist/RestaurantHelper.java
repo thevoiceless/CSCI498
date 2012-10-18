@@ -32,7 +32,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	private static final String SCHEMA_UPGRADE_V2_FEED = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_FEED + " TEXT";
 	// Schema version 3: add "lat" and "lon" columns
 	private static final String SCHEMA_UPGRADE_V3_LAT = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_LAT + " REAL";
-	private static final String SCHEMA_UPGRADE_V3_LON = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_LAT + " REAL";
+	private static final String SCHEMA_UPGRADE_V3_LON = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_LON + " REAL";
 	
 	// SQL statements
 	private static final String DB_CREATE = "CREATE TABLE " + TABLE_RESTAURANTS 

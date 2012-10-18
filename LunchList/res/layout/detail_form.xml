@@ -63,10 +63,25 @@
             </RadioGroup>
         </TableRow>
         
+        <TableRow>
+            
+            <TextView
+                android:id="@+id/locLabel"
+                android:layout_marginLeft="8dp"
+                android:text="@string/label_loc" />
+            
+            <TextView
+                android:id="@+id/locCoords"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/loc_not_set" />
+        </TableRow>
+        
         <EditText
             android:id="@+id/notes"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
             android:gravity="top"
             android:hint="@string/hint_notes"
             android:inputType="text|textCapSentences|textAutoCorrect|textMultiLine"

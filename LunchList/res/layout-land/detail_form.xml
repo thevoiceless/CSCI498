@@ -91,5 +91,18 @@
                 
             </LinearLayout>
         </TableRow>
+        	
+        <TableRow>
+            <TextView
+                android:id="@+id/locLabel"
+                android:layout_marginLeft="8dp"
+                android:text="@string/label_loc" />
+            
+            <TextView
+                android:id="@+id/locCoords"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/loc_not_set" />
+        </TableRow>
     </TableLayout>
 </ScrollView>

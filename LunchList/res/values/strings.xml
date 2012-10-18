@@ -22,6 +22,7 @@
     <string name="label_name">Name:</string>
     <string name="label_addr">Address:</string>
     <string name="label_type">Type:</string>
+    <string name="label_loc">Location:</string>
     <string name="label_notes">Notes:</string>
     <string name="label_feed">Feed:</string>
     
@@ -31,6 +32,8 @@
     <string name="radio_takeout">Take-Out</string>
     <string name="radio_sitdown">Sit-Down</string>
     <string name="radio_delivery">Delivery</string>
+    
+    <string name="loc_not_set">(Not Set)</string>
     
     <string name="action_save">Save</string>
     
