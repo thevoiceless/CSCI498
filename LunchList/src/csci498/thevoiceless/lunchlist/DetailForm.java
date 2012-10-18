@@ -3,6 +3,9 @@ package csci498.thevoiceless.lunchlist;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ public class DetailForm extends Activity
 	EditText feed = null;
 	RestaurantHelper dbHelper = null;
 	String restaurantId = null;
+	LocationManager locManager = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -32,6 +36,13 @@ public class DetailForm extends Activity
 		setContentView(R.layout.detail_form);
 		
 		setDataMembers();
+	}
+	
+	@Override
+	public void onPause()
+	{
+		locManager.removeUpdates(onLocationChange);
+		super.onPause();
 	}
 	
 	@Override
@@ -51,29 +62,22 @@ public class DetailForm extends Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if(item.getItemId() == R.id.menu_feed)
-		{
-			tryToOpenFeed();
-		}
-		else if (item.getItemId() == R.id.menu_save)
+		if (item.getItemId() == R.id.menu_save)
 		{
 			saveRestaurant();
+			return true;
+		}
+		else if (item.getItemId() == R.id.menu_location)
+		{
+			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
+			return true;
+		}
+		else if(item.getItemId() == R.id.menu_feed)
+		{
+			tryToOpenFeed();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private void tryToOpenFeed()
-	{
-		if(isNetworkAvailable())
-		{
-			Intent i = new Intent(this, FeedActivity.class);
-			i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
-			startActivity(i);
-		}
-		else
-		{
-			Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
-		}
 	}
 	
 	@Override
@@ -135,7 +139,6 @@ public class DetailForm extends Activity
 						notes.getText().toString(),
 						feed.getText().toString());
 			}
-			
 			finish();
 		}
 		else
@@ -143,6 +146,47 @@ public class DetailForm extends Activity
 			Toast.makeText(this, R.string.name_required, Toast.LENGTH_LONG).show();
 		}
 	}
+	
+	private void tryToOpenFeed()
+	{
+		if(isNetworkAvailable())
+		{
+			Intent i = new Intent(this, FeedActivity.class);
+			i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+			startActivity(i);
+		}
+		else
+		{
+			Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	LocationListener onLocationChange = new LocationListener()
+	{
+		public void onLocationChanged(Location fix)
+		{
+			dbHelper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
+			location.setText(String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()));
+			locManager.removeUpdates(onLocationChange);
+			
+			Toast.makeText(DetailForm.this, R.string.loc_saved, Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras)
+		{			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider)
+		{			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider)
+		{			
+		}
+	};
 	
 	private void setDataMembers()
 	{		
@@ -154,6 +198,7 @@ public class DetailForm extends Activity
 		feed		= (EditText) findViewById(R.id.feed);
 		dbHelper	= new RestaurantHelper(this);
 		restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
+		locManager	= (LocationManager) getSystemService(LOCATION_SERVICE);
 		
 		if(restaurantId != null)
 		{
