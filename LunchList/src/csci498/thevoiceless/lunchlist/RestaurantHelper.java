@@ -31,8 +31,8 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	
 	// SQL statements
 	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT, lat REAL, lon REAL);";
-	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes, feed FROM restaurants WHERE _ID=?";
-	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes, feed FROM restaurants ORDER BY ";
+	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes, feed, lat, lon FROM restaurants WHERE _ID=?";
+	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes, feed, lat, lon FROM restaurants ORDER BY ";
 	private static final String ID_MATCH_ARGS = "_ID=?";
 	
 	public RestaurantHelper(Context context)
@@ -76,6 +76,17 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		cv.put(COL_TYPE, type.toString());
 		cv.put(COL_NOTES, notes);
 		cv.put(COL_FEED, feed);
+		
+		getWritableDatabase().update(TABLE_RESTAURANTS, cv, ID_MATCH_ARGS, args);
+	}
+	
+	public void updateLocation(String id, double lat, double lon)
+	{
+		ContentValues cv = new ContentValues();
+		String[] args = {id};
+		
+		cv.put("lat", lat);
+		cv.put("lon", lon);
 		
 		getWritableDatabase().update(TABLE_RESTAURANTS, cv, ID_MATCH_ARGS, args);
 	}
