@@ -16,24 +16,52 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	private static final String COL_TYPE = "type";
 	private static final String COL_NOTES = "notes";
 	private static final String COL_FEED = "feed";
+	private static final String COL_LAT = "lat";
+	private static final String COL_LON = "lon";
 	private static final int NAME_INT = 1;
 	private static final int ADDR_INT = 2;
 	private static final int TYPE_INT = 3;
 	private static final int NOTES_INT = 4;
 	private static final int FEED_INT = 5;
+	private static final int LAT_INT = 6;
+	private static final int LON_INT = 7;
 	
 	private static final int SCHEMA_VERSION = 3;
 	// Schema version 2: add "feed" column
-	private static final String SCHEMA_UPGRADE_V2_FEED = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
+	//private static final String SCHEMA_UPGRADE_V2_FEED = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
+	private static final String SCHEMA_UPGRADE_V2_FEED = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_FEED + " TEXT";
 	// Schema version 3: add "lat" and "lon" columns
-	private static final String SCHEMA_UPGRADE_V3_LAT = "ALTER TABLE restaurants ADD COLUMN lat REAL";
-	private static final String SCHEMA_UPGRADE_V3_LON = "ALTER TABLE restaurants ADD COLUMN lon REAL";
+	private static final String SCHEMA_UPGRADE_V3_LAT = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_LAT + " REAL";
+	private static final String SCHEMA_UPGRADE_V3_LON = "ALTER TABLE " + TABLE_RESTAURANTS + " ADD COLUMN " + COL_LAT + " REAL";
 	
 	// SQL statements
-	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT, lat REAL, lon REAL);";
-	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes, feed, lat, lon FROM restaurants WHERE _ID=?";
-	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes, feed, lat, lon FROM restaurants ORDER BY ";
+	private static final String DB_CREATE = "CREATE TABLE " + TABLE_RESTAURANTS 
+			+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COL_NAME + " TEXT, "
+			+ COL_ADDR + " TEXT, "
+			+ COL_TYPE + " TEXT, "
+			+ COL_NOTES + " TEXT, "
+			+ COL_FEED + " TEXT, "
+			+ COL_LAT + " REAL, "
+			+ COL_LON + " REAL);";
 	private static final String ID_MATCH_ARGS = "_ID=?";
+	private static final String DB_GET_BY_ID = "SELECT _id, " + COL_NAME 
+			+ ", " + COL_ADDR 
+			+ ", " + COL_TYPE 
+			+ ", " + COL_NOTES 
+			+ ", " + COL_FEED 
+			+ ", " + COL_LAT 
+			+ ", " + COL_LON 
+			+ " FROM " + TABLE_RESTAURANTS + " WHERE " + ID_MATCH_ARGS;
+	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, " + COL_NAME 
+			+ ", " + COL_ADDR
+			+ ", " + COL_TYPE 
+			+ ", " + COL_NOTES 
+			+ ", " + COL_FEED 
+			+ ", " + COL_LAT 
+			+ ", " + COL_LON 
+			+ " FROM " + TABLE_RESTAURANTS + " ORDER BY ";
+	
 	
 	public RestaurantHelper(Context context)
 	{
@@ -85,8 +113,8 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		ContentValues cv = new ContentValues();
 		String[] args = {id};
 		
-		cv.put("lat", lat);
-		cv.put("lon", lon);
+		cv.put(COL_LAT, lat);
+		cv.put(COL_LON, lon);
 		
 		getWritableDatabase().update(TABLE_RESTAURANTS, cv, ID_MATCH_ARGS, args);
 	}
@@ -148,5 +176,15 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public String getFeed(Cursor c)
 	{
 		return c.getString(FEED_INT);
+	}
+	
+	public double getLatitude(Cursor c)
+	{
+		return(c.getDouble(LAT_INT));
+	}
+	
+	public double getLongitutde(Cursor c)
+	{
+		return (c.getDouble(LON_INT));
 	}
 }
