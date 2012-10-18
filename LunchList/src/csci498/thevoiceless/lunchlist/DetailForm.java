@@ -53,7 +53,7 @@ public class DetailForm extends Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if(item.getItemId() == R.id.feed)
+		if(item.getItemId() == R.id.menu_feed)
 		{
 			if(isNetworkAvailable())
 			{
@@ -66,6 +66,42 @@ public class DetailForm extends Activity
 				Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
 			}
 			return true;
+		}
+		else if (item.getItemId() == R.id.menu_save)
+		{
+			Restaurant.Type type = null;
+			switch(typeGroup.getCheckedRadioButtonId())
+			{
+				case R.id.sitdownRadio:
+					type = Restaurant.Type.SIT_DOWN;
+					break;
+				case R.id.takeoutRadio:
+					type = Restaurant.Type.TAKE_OUT;
+					break;
+				case R.id.deliveryRadio:
+					type = Restaurant.Type.DELIVERY;
+					break;
+			}
+			
+			if(restaurantId == null)
+			{
+				dbHelper.insert(name.getText().toString(),
+						address.getText().toString(),
+						type,
+						notes.getText().toString(),
+						feed.getText().toString());
+			}
+			else
+			{
+				dbHelper.update(restaurantId,
+						name.getText().toString(),
+						address.getText().toString(),
+						type,
+						notes.getText().toString(),
+						feed.getText().toString());
+			}
+			
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

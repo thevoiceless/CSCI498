@@ -87,6 +87,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="@string/button_save" />
+            android:text="@string/action_save" />
     </TableLayout>
 </ScrollView>
