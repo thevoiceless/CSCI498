@@ -22,12 +22,15 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	private static final int NOTES_INT = 4;
 	private static final int FEED_INT = 5;
 	
-	private static final int SCHEMA_VERSION = 2;
+	private static final int SCHEMA_VERSION = 3;
 	// Schema version 2: add "feed" column
-	private static final String SCHEMA_UPGRADE_V2 = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
+	private static final String SCHEMA_UPGRADE_V2_FEED = "ALTER TABLE restaurants ADD COLUMN feed TEXT";
+	// Schema version 3: add "lat" and "lon" columns
+	private static final String SCHEMA_UPGRADE_V3_LAT = "ALTER TABLE restaurants ADD COLUMN lat REAL";
+	private static final String SCHEMA_UPGRADE_V3_LON = "ALTER TABLE restaurants ADD COLUMN lon REAL";
 	
 	// SQL statements
-	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT);";
+	private static final String DB_CREATE = "CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT, feed TEXT, lat REAL, lon REAL);";
 	private static final String DB_GET_BY_ID = "SELECT _id, name, address, type, notes, feed FROM restaurants WHERE _ID=?";
 	private static final String DB_GET_ALL_ORDER_BY = "SELECT _id, name, address, type, notes, feed FROM restaurants ORDER BY ";
 	private static final String ID_MATCH_ARGS = "_ID=?";
@@ -46,12 +49,20 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// Switch with no breaks, so upgrades will cascade
+		// Switch with no breaks, upgrades will cascade
 		switch(oldVersion)
 		{
-			// Upgrade from v1 to current
+			// Upgrade from v1
 			case 1:
-				db.execSQL(SCHEMA_UPGRADE_V2);
+			{
+				db.execSQL(SCHEMA_UPGRADE_V2_FEED);
+			}
+			// Upgrade from v2
+			case 2:
+			{
+				db.execSQL(SCHEMA_UPGRADE_V3_LAT);
+				db.execSQL(SCHEMA_UPGRADE_V3_LON);
+			}
 		}
 	}
 	
