@@ -183,7 +183,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		return(c.getDouble(LAT_INT));
 	}
 	
-	public double getLongitutde(Cursor c)
+	public double getLongitude(Cursor c)
 	{
 		return (c.getDouble(LON_INT));
 	}

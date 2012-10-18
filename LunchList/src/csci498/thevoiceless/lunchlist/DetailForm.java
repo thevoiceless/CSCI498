@@ -9,10 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DetailForm extends Activity
@@ -20,6 +19,7 @@ public class DetailForm extends Activity
 	EditText name = null;
 	EditText address = null;
 	RadioGroup typeGroup = null;
+	TextView location = null;
 	EditText notes = null;
 	EditText feed = null;
 	RestaurantHelper dbHelper = null;
@@ -149,6 +149,7 @@ public class DetailForm extends Activity
 		name 		= (EditText) findViewById(R.id.name);
 		address 	= (EditText) findViewById(R.id.addr);
 		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
+		location	= (TextView) findViewById(R.id.locCoords);
 		notes 		= (EditText) findViewById(R.id.notes);
 		feed		= (EditText) findViewById(R.id.feed);
 		dbHelper	= new RestaurantHelper(this);
@@ -163,10 +164,11 @@ public class DetailForm extends Activity
 	private void load()
 	{
 		Cursor c = dbHelper.getById(restaurantId);
-		
 		c.moveToFirst();
+		
 		name.setText(dbHelper.getName(c));
 		address.setText(dbHelper.getAddress(c));
+		location.setText(String.valueOf(dbHelper.getLatitude(c)) + ", " + String.valueOf(dbHelper.getLongitude(c)));
 		notes.setText(dbHelper.getNotes(c));
 		feed.setText(dbHelper.getFeed(c));
 		
