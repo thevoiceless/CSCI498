@@ -8,7 +8,7 @@
     <item
         android:id="@+id/menu_location"
         android:icon="@drawable/ic_menu_compass"
-        android:title="@string/save_location" />
+        android:title="@string/set_location" />
 
     <item
         android:id="@+id/menu_feed"

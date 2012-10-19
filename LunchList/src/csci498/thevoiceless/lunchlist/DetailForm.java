@@ -28,6 +28,7 @@ public class DetailForm extends Activity
 	RestaurantHelper dbHelper = null;
 	String restaurantId = null;
 	LocationManager locManager = null;
+	double latitude, longitude;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -53,16 +54,6 @@ public class DetailForm extends Activity
 	}
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu)
-	{
-		if (restaurantId == null)
-		{
-			menu.findItem(R.id.menu_location).setEnabled(false);
-		}
-		return super.onPrepareOptionsMenu(menu);
-	}
-	
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		new MenuInflater(this).inflate(R.menu.details_option, menu);
@@ -79,6 +70,7 @@ public class DetailForm extends Activity
 		}
 		else if (item.getItemId() == R.id.menu_location)
 		{
+			Toast.makeText(DetailForm.this, R.string.loc_attempting, Toast.LENGTH_LONG).show();
 			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return true;
 		}
@@ -138,7 +130,9 @@ public class DetailForm extends Activity
 						address.getText().toString(),
 						type,
 						notes.getText().toString(),
-						feed.getText().toString());
+						feed.getText().toString(),
+						latitude,
+						longitude);
 			}
 			else
 			{
@@ -148,6 +142,7 @@ public class DetailForm extends Activity
 						type,
 						notes.getText().toString(),
 						feed.getText().toString());
+				dbHelper.updateLocation(restaurantId, latitude, longitude);
 			}
 			finish();
 		}
@@ -174,12 +169,13 @@ public class DetailForm extends Activity
 	LocationListener onLocationChange = new LocationListener()
 	{
 		public void onLocationChanged(Location fix)
-		{
-			dbHelper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
-			location.setText(String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()));
+		{			
+			latitude = fix.getLatitude();
+			longitude = fix.getLongitude();
+			location.setText(latitude + ", " + longitude);
 			locManager.removeUpdates(onLocationChange);
 			
-			Toast.makeText(DetailForm.this, R.string.loc_saved, Toast.LENGTH_LONG).show();
+			Toast.makeText(DetailForm.this, R.string.loc_success, Toast.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -223,7 +219,10 @@ public class DetailForm extends Activity
 		
 		name.setText(dbHelper.getName(c));
 		address.setText(dbHelper.getAddress(c));
-		location.setText(String.valueOf(dbHelper.getLatitude(c)) + ", " + String.valueOf(dbHelper.getLongitude(c)));
+		if (dbHelper.getLatitude(c) != 0.0 && dbHelper.getLongitude(c) != 0.0)
+		{
+			location.setText(String.valueOf(dbHelper.getLatitude(c)) + ", " + String.valueOf(dbHelper.getLongitude(c)));
+		}
 		notes.setText(dbHelper.getNotes(c));
 		feed.setText(dbHelper.getFeed(c));
 		

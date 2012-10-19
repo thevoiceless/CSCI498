@@ -136,6 +136,19 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		getWritableDatabase().insert(TABLE_RESTAURANTS, COL_NAME, cv);
 	}
 	
+	public void insert(String name, String address, Restaurant.Type type, String notes, String feed, double latitude, double longitude)
+	{
+		ContentValues cv = new ContentValues();
+		cv.put(COL_NAME, name);
+		cv.put(COL_ADDR, address);
+		cv.put(COL_TYPE, type.toString());
+		cv.put(COL_NOTES, notes);
+		cv.put(COL_FEED, feed);
+		cv.put(COL_LAT, latitude);
+		cv.put(COL_LON, longitude);
+		getWritableDatabase().insert(TABLE_RESTAURANTS, COL_NAME, cv);
+	}
+	
 	public Cursor getAll(String orderBy)
 	{
 		return getReadableDatabase().rawQuery(DB_GET_ALL_ORDER_BY + orderBy, null);

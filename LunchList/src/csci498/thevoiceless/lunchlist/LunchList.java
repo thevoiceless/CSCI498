@@ -15,19 +15,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LunchList extends ListActivity
 {
-	// Cursor for restaurants in the database, and its associated adapter
-	Cursor restaurants;
-	RestaurantAdapter restaurantsAdapter = null;
-	// Data members from the view
-	SharedPreferences prefs = null;
-	RestaurantHelper dbHelper = null;
 	public final static String ID_EXTRA = "csci498.thevoiceless.lunchlist_ID";
+	// Cursor for restaurants in the database, and its associated adapter
+	private Cursor restaurants;
+	private RestaurantAdapter restaurantsAdapter = null;
+	// Data members from the view
+	private SharedPreferences prefs = null;
+	private RestaurantHelper dbHelper = null;
+	private ListView list = null;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -36,6 +41,7 @@ public class LunchList extends ListActivity
 		setContentView(R.layout.activity_lunch_list);
 		
 		setDataMembers();
+		setListeners();
 	}
 	
 	@Override
@@ -155,6 +161,7 @@ public class LunchList extends ListActivity
 	{
 		prefs		= PreferenceManager.getDefaultSharedPreferences(this);
 		dbHelper	= new RestaurantHelper(this);
+		list		= getListView();
 		
 		initList();
 		prefs.registerOnSharedPreferenceChangeListener(prefListener);
@@ -177,5 +184,18 @@ public class LunchList extends ListActivity
 	{
 		restaurantsAdapter = new RestaurantAdapter(restaurants);
 		setListAdapter(restaurantsAdapter);
+	}
+	
+	private void setListeners()
+	{
+		list.setOnItemLongClickListener(new OnItemLongClickListener()
+		{
+	       @Override
+	       public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
+	       {
+	    	   Toast.makeText(LunchList.this, "Long click", Toast.LENGTH_LONG).show();
+		       return true;
+		   }
+		});
 	}
 }
