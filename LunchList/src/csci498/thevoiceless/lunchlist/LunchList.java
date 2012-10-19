@@ -1,7 +1,10 @@
 package csci498.thevoiceless.lunchlist;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +29,7 @@ import android.widget.Toast;
 public class LunchList extends ListActivity
 {
 	public final static String ID_EXTRA = "csci498.thevoiceless.lunchlist_ID";
+	private final static int LONG_PRESS_ACTIONS = 1;
 	// Cursor for restaurants in the database, and its associated adapter
 	private Cursor restaurants;
 	private RestaurantAdapter restaurantsAdapter = null;
@@ -193,9 +198,26 @@ public class LunchList extends ListActivity
 	       @Override
 	       public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
 	       {
-	    	   Toast.makeText(LunchList.this, "Long click", Toast.LENGTH_LONG).show();
+	    	   //Toast.makeText(LunchList.this, "Long click", Toast.LENGTH_LONG).show();
+	    	   showDialog(LONG_PRESS_ACTIONS);
 		       return true;
 		   }
 		});
+	}
+	
+	@Override
+	public Dialog onCreateDialog(int id)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(LunchList.this);
+		builder.setItems(R.array.longpress_actions,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						// The 'which' argument contains the index position of the selected item
+						Toast.makeText(LunchList.this, "Pressed " + which, Toast.LENGTH_LONG).show();
+					}
+				});
+		return builder.create();
 	}
 }
