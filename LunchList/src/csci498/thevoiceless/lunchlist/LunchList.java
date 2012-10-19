@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 public class LunchList extends ListActivity
 {
-	public final static String ID_EXTRA = "csci498.thevoiceless.lunchlist_ID";
+	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
 	private final static int LONG_PRESS_ACTIONS = 1;
 	// Cursor for restaurants in the database, and its associated adapter
 	private Cursor restaurants;
@@ -37,7 +37,7 @@ public class LunchList extends ListActivity
 	private SharedPreferences prefs = null;
 	private RestaurantHelper dbHelper = null;
 	private ListView list = null;
-	
+	private long longPressedRestaurant;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -82,8 +82,13 @@ public class LunchList extends ListActivity
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id)
 	{
+		showDetailForm(id);
+	}
+	
+	private void showDetailForm(long id)
+	{
 		Intent i = new Intent(LunchList.this, DetailForm.class);
-		i.putExtra(ID_EXTRA, String.valueOf(id));
+		i.putExtra(RESTAURANT_ID_KEY, String.valueOf(id));
 		startActivity(i);
 	}
 	
@@ -193,15 +198,17 @@ public class LunchList extends ListActivity
 	
 	private void setListeners()
 	{
+		// Display dialog after long-pressing on a list item
 		list.setOnItemLongClickListener(new OnItemLongClickListener()
 		{
-	       @Override
-	       public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
-	       {
-	    	   //Toast.makeText(LunchList.this, "Long click", Toast.LENGTH_LONG).show();
-	    	   showDialog(LONG_PRESS_ACTIONS);
-		       return true;
-		   }
+			@Override
+			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
+			{
+				longPressedRestaurant = id;
+				// showDialog automatically calls onCreateDialog
+				showDialog(LONG_PRESS_ACTIONS);
+				return true;
+			}
 		});
 	}
 	
@@ -209,15 +216,37 @@ public class LunchList extends ListActivity
 	public Dialog onCreateDialog(int id)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(LunchList.this);
-		builder.setItems(R.array.longpress_actions,
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int which)
+		
+		if (id == LONG_PRESS_ACTIONS)
+		{
+			builder.setItems(R.array.longpress_actions,
+					new DialogInterface.OnClickListener()
 					{
-						// The 'which' argument contains the index position of the selected item
-						Toast.makeText(LunchList.this, "Pressed " + which, Toast.LENGTH_LONG).show();
-					}
-				});
+						public void onClick(DialogInterface dialog, int whichIndexWasPressed)
+						{
+							switch(whichIndexWasPressed)
+							{
+								// Edit
+								case 0:
+									showDetailForm(longPressedRestaurant);
+									break;
+								// Delete
+								case 1:
+									if (dbHelper.delete(String.valueOf(longPressedRestaurant)))
+									{
+										Toast.makeText(LunchList.this, R.string.delete_success, Toast.LENGTH_LONG).show();
+										restaurants.requery();
+									}
+									else
+									{
+										Toast.makeText(LunchList.this, R.string.delete_failure, Toast.LENGTH_LONG).show();
+									}
+									break;
+							}
+						}
+					});
+		}
+		
 		return builder.create();
 	}
 }

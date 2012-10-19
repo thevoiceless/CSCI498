@@ -157,7 +157,7 @@ public class DetailForm extends Activity
 		if(isNetworkAvailable())
 		{
 			Intent i = new Intent(this, FeedActivity.class);
-			i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
+			i.putExtra(FeedActivity.FEED_URL_KEY, feed.getText().toString());
 			startActivity(i);
 		}
 		else
@@ -203,7 +203,7 @@ public class DetailForm extends Activity
 		notes 		= (EditText) findViewById(R.id.notes);
 		feed		= (EditText) findViewById(R.id.feed);
 		dbHelper	= new RestaurantHelper(this);
-		restaurantId = getIntent().getStringExtra(LunchList.ID_EXTRA);
+		restaurantId = getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
 		locManager	= (LocationManager) getSystemService(LOCATION_SERVICE);
 		
 		if(restaurantId != null)

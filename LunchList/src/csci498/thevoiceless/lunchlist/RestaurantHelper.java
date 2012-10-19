@@ -61,6 +61,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 			+ ", " + COL_LAT 
 			+ ", " + COL_LON 
 			+ " FROM " + TABLE_RESTAURANTS + " ORDER BY ";
+	private static final String DB_DELETE = "DELETE FROM " + TABLE_RESTAURANTS + " WHERE " + ID_MATCH_ARGS;
 	
 	
 	public RestaurantHelper(Context context)
@@ -117,6 +118,13 @@ public class RestaurantHelper extends SQLiteOpenHelper
 		cv.put(COL_LON, lon);
 		
 		getWritableDatabase().update(TABLE_RESTAURANTS, cv, ID_MATCH_ARGS, args);
+	}
+	
+	public boolean delete(String id)
+	{
+		String[] args = {id};
+		int result = getWritableDatabase().delete(TABLE_RESTAURANTS, ID_MATCH_ARGS, args);
+		return (result != 0) ? true : false;
 	}
 	
 	public Cursor getById(String id)

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class FeedActivity extends ListActivity
 {
-	public static final String FEED_URL = "csci498.thevoiceless.lunchlist.FEED_URL";
+	public static final String FEED_URL_KEY = "csci498.thevoiceless.lunchlist.FEED_URL";
 	private InstanceState state = null;
 	
 	@Override
@@ -33,7 +33,7 @@ public class FeedActivity extends ListActivity
 			state.handler = new FeedHandler(this);
 			
 			Intent i = new Intent(this, FeedService.class);
-			i.putExtra(FeedService.EXTRA_URL, getIntent().getStringExtra(FEED_URL));
+			i.putExtra(FeedService.EXTRA_URL, getIntent().getStringExtra(FEED_URL_KEY));
 			i.putExtra(FeedService.EXTRA_MESSENGER, new Messenger(state.handler));
 			startService(i);
 		}
