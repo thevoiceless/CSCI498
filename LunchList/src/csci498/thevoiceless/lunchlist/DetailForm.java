@@ -87,6 +87,9 @@ public class DetailForm extends Activity
 		else if (item.getItemId() == R.id.menu_map)
 		{
 			Intent i = new Intent(this, RestaurantMap.class);
+			i.putExtra(RestaurantMap.LATITUDE_KEY, latitude);
+			i.putExtra(RestaurantMap.LONGITUDE_KEY, longitude);
+			i.putExtra(RestaurantMap.NAME_KEY, name.getText().toString());
 			startActivity(i);
 			return true;
 		}
@@ -237,7 +240,9 @@ public class DetailForm extends Activity
 		address.setText(dbHelper.getAddress(c));
 		if (dbHelper.getLatitude(c) != 0.0 && dbHelper.getLongitude(c) != 0.0)
 		{
-			location.setText(String.valueOf(dbHelper.getLatitude(c)) + ", " + String.valueOf(dbHelper.getLongitude(c)));
+			latitude = dbHelper.getLatitude(c);
+			longitude = dbHelper.getLongitude(c);
+			location.setText("(" + latitude + ", " + longitude + ")");
 		}
 		notes.setText(dbHelper.getNotes(c));
 		feed.setText(dbHelper.getFeed(c));
