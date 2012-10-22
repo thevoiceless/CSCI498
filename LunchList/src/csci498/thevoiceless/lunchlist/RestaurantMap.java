@@ -1,10 +1,13 @@
 package csci498.thevoiceless.lunchlist;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 
 public class RestaurantMap extends MapActivity
 {
@@ -15,6 +18,7 @@ public class RestaurantMap extends MapActivity
 	private static final double DEGREES_MULTIPLIER = 1000000.0;
 	
 	private double latitude, longitude;
+	private GeoPoint location;
 	private String name;
 	private MapView map;
 	
@@ -24,6 +28,7 @@ public class RestaurantMap extends MapActivity
 		super.onCreate(savedInstanceState);
 		
 		setDataMembers();
+		setMap();
 		
 		setContentView(R.layout.map);
 	}
@@ -43,10 +48,42 @@ public class RestaurantMap extends MapActivity
 		map = (MapView) findViewById(R.id.map);
 		map.getController().setZoom(DEFAULT_ZOOM);
 		
-		GeoPoint location = new GeoPoint((int)(latitude * DEGREES_MULTIPLIER), (int)(longitude * DEGREES_MULTIPLIER));
+		location = new GeoPoint((int)(latitude * DEGREES_MULTIPLIER), (int)(longitude * DEGREES_MULTIPLIER));
 		
 		map.getController().setCenter(location);
 		map.setBuiltInZoomControls(true);
+	}
+	
+	private void setMap()
+	{
+		Drawable marker = getResources().getDrawable(R.drawable.marker);
+		marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
+		map.getOverlays().add(new RestaurantMapOverlay(marker, location, name));
+	}
+	
+	private class RestaurantMapOverlay extends ItemizedOverlay<OverlayItem>
+	{
+		private OverlayItem item;
+		
+		public RestaurantMapOverlay(Drawable marker, GeoPoint location, String name)
+		{
+			super(marker);
+			boundCenterBottom(marker);
+			item = new OverlayItem(location, name, name);
+			populate();
+		}
+		
+		@Override
+		protected OverlayItem createItem(int i)
+		{
+			return item;
+		}
+		
+		@Override
+		public int size()
+		{
+			return 1;
+		}
 	}
 	
 }
