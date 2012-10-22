@@ -2,6 +2,7 @@ package csci498.thevoiceless.lunchlist;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -25,12 +26,11 @@ public class RestaurantMap extends MapActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
+		setContentView(R.layout.map);
 		
 		setDataMembers();
 		setMap();
-		
-		setContentView(R.layout.map);
 	}
 	
 	@Override
@@ -83,6 +83,13 @@ public class RestaurantMap extends MapActivity
 		public int size()
 		{
 			return 1;
+		}
+		
+		@Override
+		protected boolean onTap(int i)
+		{
+			Toast.makeText(RestaurantMap.this, item.getSnippet(), Toast.LENGTH_SHORT).show();
+			return true;
 		}
 	}
 	

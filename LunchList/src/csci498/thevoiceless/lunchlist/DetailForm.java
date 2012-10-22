@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,9 +57,14 @@ public class DetailForm extends Activity
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
+		Log.v("menu", "lat/long: " + latitude + "/" + longitude);
 		if (latitude == 0 && longitude == 0)
 		{
 			menu.findItem(R.id.menu_map).setEnabled(false);
+		}
+		else
+		{
+			menu.findItem(R.id.menu_map).setEnabled(true);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
