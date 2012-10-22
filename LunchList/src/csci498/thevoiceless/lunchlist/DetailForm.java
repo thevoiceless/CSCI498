@@ -54,6 +54,16 @@ public class DetailForm extends Activity
 	}
 	
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		if (latitude == 0 && longitude == 0)
+		{
+			menu.findItem(R.id.menu_map).setEnabled(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		new MenuInflater(this).inflate(R.menu.details_option, menu);

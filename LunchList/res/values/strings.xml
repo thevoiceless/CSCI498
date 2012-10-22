@@ -12,6 +12,7 @@
     <string name="open_rss">Open RSS Feed</string>
     <string name="action_save">Save</string>
     <string name="set_location">Set Location</string>
+    <string name="show_map">Show Map</string>
     
     <!-- Restaurants list -->
     <string name="no_restaurants">Open the menu to add a restaurant.</string>
@@ -52,6 +53,5 @@
     <string name="activity_feed">FeedActivity</string>
     <string name="activity_lunchlist">LunchList</string>
     <string name="exception_parsing_feed">Exception while parsing feed</string>
-    
 
 </resources>

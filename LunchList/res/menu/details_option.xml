@@ -9,6 +9,11 @@
         android:id="@+id/menu_location"
         android:icon="@drawable/ic_menu_compass"
         android:title="@string/set_location" />
+    
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/ic_menu_mapmode"
+        android:title="@string/show_map" />
 
     <item
         android:id="@+id/menu_feed"
