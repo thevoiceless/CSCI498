@@ -53,5 +53,8 @@
     <string name="activity_feed">FeedActivity</string>
     <string name="activity_lunchlist">LunchList</string>
     <string name="exception_parsing_feed">Exception while parsing feed</string>
+    
+    <!-- Maps API Key -->
+    <string name="maps_debug_api_key">0aX25Iba4pIVmqJ0-8LSFuO97UfYzpb0Rlvh9FA</string>
 
 </resources>
