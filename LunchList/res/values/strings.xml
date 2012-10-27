@@ -58,7 +58,14 @@
     <string name="maps_debug_api_key">0aX25Iba4pIVmqJ0-8LSFuO97UfYzpb0Rlvh9FA</string>
     
     <!-- Preferences -->
-    <string name="button_set">Set</string>
-    <string name="button_cancel">Cancel</string>
+    <string name="pref_sort_order">Sort Order</string>
+    <string name="pref_sort_order_summary">Choose the order for the list of restaurants</string>
+    <string name="pref_sort_dialog">Choose a sort order</string>
+    <string name="pref_alarm_title">Sound a Lunch Alarm</string>
+    <string name="pref_alarm_summary">Enable if you want to play an alarm when it\'s time for lunch</string>
+    <string name="pref_alarm_time_title">Lunch Alarm Time</string>
+    <stirng name="pref_alarm_time_summary">Set the time for the lunch alarm</stirng>
+    <string name="pref_button_set">Set</string>
+    <string name="pref_button_cancel">Cancel</string>
 
 </resources>

@@ -28,8 +28,8 @@ public class TimePreference extends DialogPreference
 	public TimePreference(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		setPositiveButtonText(R.string.button_set);
-		setNegativeButtonText(R.string.button_cancel);
+		setPositiveButtonText(R.string.pref_button_set);
+		setNegativeButtonText(R.string.pref_button_cancel);
 	}
 	
 	@Override

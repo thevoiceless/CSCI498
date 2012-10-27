@@ -1,9 +1,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
     <ListPreference
         android:key="sort_order"
-        android:title="Sort Order"
-        android:summary="Choose the order the list uses"
+        android:title="@string/pref_sort_order"
+        android:summary="@string/pref_sort_order_summary"
         android:entries="@array/sort_names"
         android:entryValues="@array/sort_clauses"
-        android:dialogTitle="Choose a sort order" />
+        android:dialogTitle="@string/pref_sort_dialog" />
+    
+    <CheckboxPreference
+        android:key="alarm"
+        android:title="@string/pref_alarm_title"
+        android:summary="@string/pref_alarm_summary" />
+    
+    <csci498.thevoiceless.TimePreference
+        android:key="alarm_time"
+        android:title="@string/pref_alarm_time_title"
+        android:defaultValue="12:00"
+        android:summary="@string/pref_alarm_time_summary"
+        android:dependency="alarm" />
+    
 </PreferenceScreen>
