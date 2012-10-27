@@ -66,7 +66,7 @@
     <string name="pref_sort_order_summary">Choose the order for the list of restaurants</string>
     <string name="pref_sort_dialog">Choose a sort order</string>
     <string name="pref_alarm_title">Sound a Lunch Alarm</string>
-    <string name="pref_alarm_summary">Enable if you want to play an alarm when it\'s time for lunch</string>
+    <string name="pref_alarm_summary">Enable if you want to be notified when it\'s time for lunch</string>
     <string name="pref_alarm_time_title">Lunch Alarm Time</string>
     <string name="pref_alarm_time_summary">Set the time for the lunch alarm</string>
     <string name="pref_default_alarm_time">12:00</string>

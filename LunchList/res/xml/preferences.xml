@@ -8,12 +8,12 @@
         android:entryValues="@array/sort_clauses"
         android:dialogTitle="@string/pref_sort_dialog" />
     
-    <CheckboxPreference
+    <CheckBoxPreference
         android:key="@string/key_alarm"
         android:title="@string/pref_alarm_title"
         android:summary="@string/pref_alarm_summary" />
     
-    <csci498.thevoiceless.TimePreference
+    <csci498.thevoiceless.lunchlist.TimePreference
         android:key="@string/key_alarm_time"
         android:title="@string/pref_alarm_time_title"
         android:defaultValue="@string/pref_default_alarm_time"

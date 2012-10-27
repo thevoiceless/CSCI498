@@ -6,7 +6,6 @@ import android.content.Intent;
 
 public class OnAlarmReceiver extends BroadcastReceiver
 {
-
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
@@ -14,5 +13,4 @@ public class OnAlarmReceiver extends BroadcastReceiver
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(i);
 	}
-
 }
