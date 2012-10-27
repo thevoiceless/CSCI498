@@ -56,5 +56,9 @@
     
     <!-- Maps API Key -->
     <string name="maps_debug_api_key">0aX25Iba4pIVmqJ0-8LSFuO97UfYzpb0Rlvh9FA</string>
+    
+    <!-- Preferences -->
+    <string name="button_set">Set</string>
+    <string name="button_cancel">Cancel</string>
 
 </resources>
