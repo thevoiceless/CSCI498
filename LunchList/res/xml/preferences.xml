@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <ListPreference
-        android:key="sort_order"
+        android:key="@string/key_sort_order"
         android:title="@string/pref_sort_order"
         android:summary="@string/pref_sort_order_summary"
         android:entries="@array/sort_names"
@@ -9,15 +9,15 @@
         android:dialogTitle="@string/pref_sort_dialog" />
     
     <CheckboxPreference
-        android:key="alarm"
+        android:key="@string/key_alarm"
         android:title="@string/pref_alarm_title"
         android:summary="@string/pref_alarm_summary" />
     
     <csci498.thevoiceless.TimePreference
-        android:key="alarm_time"
+        android:key="@string/key_alarm_time"
         android:title="@string/pref_alarm_time_title"
-        android:defaultValue="12:00"
+        android:defaultValue="@string/pref_default_alarm_time"
         android:summary="@string/pref_alarm_time_summary"
-        android:dependency="alarm" />
+        android:dependency="@string/key_alarm" />
     
 </PreferenceScreen>
