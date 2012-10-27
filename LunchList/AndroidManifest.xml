@@ -38,6 +38,7 @@
         <activity android:name=".EditPreferences" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".RestaurantMap" />
+        <activity android:name=".AlarmActivity" />
         
         <service android:name=".FeedService" />
         
@@ -48,6 +49,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".OnAlarmReceiver" />
         
     </application>
 </manifest>
