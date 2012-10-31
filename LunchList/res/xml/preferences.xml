@@ -20,4 +20,11 @@
         android:summary="@string/pref_alarm_time_summary"
         android:dependency="@string/key_alarm" />
     
+    <CheckBoxPreference 
+        android:key="@string/key_alarm_use_notification"
+        android:title="@string/pref_alarm_use_notification_title"
+        android:defaultValue="true"
+        android:summary="@string/pref_alarm_use_notification_summary"
+        android:dependency="@string/key_alarm" />
+
 </PreferenceScreen>

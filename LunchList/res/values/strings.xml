@@ -61,6 +61,7 @@
     <string name="key_sort_order">sort_order</string>
     <string name="key_alarm">alarm</string>
     <string name="key_alarm_time">alarm_time</string>
+    <string name="key_alarm_use_notification">use_notification</string>
     
     <string name="pref_sort_order">Sort Order</string>
     <string name="pref_sort_order_summary">Choose the order for the list of restaurants</string>
@@ -70,6 +71,8 @@
     <string name="pref_alarm_time_title">Lunch Alarm Time</string>
     <string name="pref_alarm_time_summary">Set the time for the lunch alarm</string>
     <string name="pref_default_alarm_time">12:00</string>
+    <string name="pref_alarm_use_notification_title">Display Notification</string>
+    <string name="pref_alarm_use_notification_summary">Enable to display a notification in the status bar, or disable for a full-screen notification</string>
     <string name="pref_button_set">Set</string>
     <string name="pref_button_cancel">Cancel</string>
     
