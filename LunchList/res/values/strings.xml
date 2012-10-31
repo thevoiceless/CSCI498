@@ -77,5 +77,9 @@
     <string name="pref_button_cancel">Cancel</string>
     
     <string name="alarm_message">Time for lunch!</string>
+    
+    <!-- Notifications -->
+    <string name="notification_lunch_ticker">Time for lunch!</string>
+    <string name="notification_lunch_content">It\'s time for lunch! Hungry?</string>
 
 </resources>
