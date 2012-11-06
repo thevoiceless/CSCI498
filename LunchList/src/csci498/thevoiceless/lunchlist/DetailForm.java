@@ -136,7 +136,7 @@ public class DetailForm extends Activity
 		if (name.getText().toString().length() > 0)
 		{
 			Restaurant.Type type = null;
-			switch(typeGroup.getCheckedRadioButtonId())
+			switch (typeGroup.getCheckedRadioButtonId())
 			{
 				case R.id.sitdownRadio:
 					type = Restaurant.Type.SIT_DOWN;
@@ -149,7 +149,7 @@ public class DetailForm extends Activity
 					break;
 			}
 			
-			if(restaurantId == null)
+			if (restaurantId == null)
 			{
 				dbHelper.insert(name.getText().toString(),
 						address.getText().toString(),
@@ -179,7 +179,7 @@ public class DetailForm extends Activity
 	
 	private void tryToOpenFeed()
 	{
-		if(isNetworkAvailable())
+		if (isNetworkAvailable())
 		{
 			Intent i = new Intent(this, FeedActivity.class);
 			i.putExtra(FeedActivity.FEED_URL_KEY, feed.getText().toString());
@@ -231,7 +231,7 @@ public class DetailForm extends Activity
 		restaurantId = getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
 		locManager	= (LocationManager) getSystemService(LOCATION_SERVICE);
 		
-		if(restaurantId != null)
+		if (restaurantId != null)
 		{
 			load();
 		}
@@ -253,11 +253,11 @@ public class DetailForm extends Activity
 		notes.setText(dbHelper.getNotes(c));
 		feed.setText(dbHelper.getFeed(c));
 		
-		if(dbHelper.getType(c).equals(Restaurant.Type.SIT_DOWN))
+		if (dbHelper.getType(c).equals(Restaurant.Type.SIT_DOWN))
 		{
 			typeGroup.check(R.id.sitdownRadio);
 		}
-		else if(dbHelper.getType(c).equals(Restaurant.Type.TAKE_OUT))
+		else if (dbHelper.getType(c).equals(Restaurant.Type.TAKE_OUT))
 		{
 			typeGroup.check(R.id.takeoutRadio);
 		}

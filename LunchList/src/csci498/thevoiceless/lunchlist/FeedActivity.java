@@ -27,7 +27,7 @@ public class FeedActivity extends ListActivity
 		super.onCreate(savedInstanceState);
 		state = (InstanceState) getLastNonConfigurationInstance();
 		
-		if(state == null)
+		if (state == null)
 		{
 			state = new InstanceState();
 			state.handler = new FeedHandler(this);
@@ -39,11 +39,11 @@ public class FeedActivity extends ListActivity
 		}
 		else
 		{
-			if(state.handler != null)
+			if (state.handler != null)
 			{
 				state.handler.attach(this);
 			}
-			if(state.feed != null)
+			if (state.feed != null)
 			{
 				setFeed(state.feed);
 			}
@@ -53,7 +53,7 @@ public class FeedActivity extends ListActivity
 	@Override
 	public Object onRetainNonConfigurationInstance()
 	{
-		if(state.handler != null)
+		if (state.handler != null)
 		{
 			state.handler.detach();
 		}
@@ -94,7 +94,7 @@ public class FeedActivity extends ListActivity
 		@Override
 		public void handleMessage(Message message)
 		{
-			if(message.arg1 == RESULT_OK)
+			if (message.arg1 == RESULT_OK)
 			{
 				activity.setFeed((RSSFeed) message.obj);
 			}
@@ -135,7 +135,7 @@ public class FeedActivity extends ListActivity
 		{
 			View row = convertView;
 			
-			if(row == null)
+			if (row == null)
 			{
 				LayoutInflater inflater = getLayoutInflater();
 				row = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);

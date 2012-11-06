@@ -36,7 +36,7 @@ public class FeedService extends IntentService
 			message.arg1 = Activity.RESULT_OK;
 			message.obj = result;
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			Log.e("LunchList", "Exception parsing feed", e);
 			message.arg1 = Activity.RESULT_CANCELED;
@@ -47,7 +47,7 @@ public class FeedService extends IntentService
 		{
 			messenger.send(message);
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			Log.w("LunchList", "Exception sending results to activity", e);
 		}

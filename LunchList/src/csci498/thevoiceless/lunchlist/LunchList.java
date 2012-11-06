@@ -59,12 +59,12 @@ public class LunchList extends ListActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if(item.getItemId() == R.id.add)
+		if (item.getItemId() == R.id.add)
 		{
 			startActivity(new Intent(LunchList.this, DetailForm.class));
 			return true;
 		}
-		else if(item.getItemId() == R.id.prefs)
+		else if (item.getItemId() == R.id.prefs)
 		{
 			startActivity(new Intent(this, EditPreferences.class));
 			return true;
@@ -136,12 +136,12 @@ public class LunchList extends ListActivity
 			rName.setText(helper.getName(cursor));
 			rAddress.setText(helper.getAddress(cursor));
 			
-			if(helper.getType(cursor).equals(Restaurant.Type.SIT_DOWN))
+			if (helper.getType(cursor).equals(Restaurant.Type.SIT_DOWN))
 			{
 				rIcon.setImageResource(R.drawable.green_circle);
 				rName.setTextColor(Color.rgb(0, 153, 0));
 			}
-			else if(helper.getType(cursor).equals(Restaurant.Type.TAKE_OUT))
+			else if (helper.getType(cursor).equals(Restaurant.Type.TAKE_OUT))
 			{
 				rIcon.setImageResource(R.drawable.blue_circle);
 				rName.setTextColor(Color.BLUE);
@@ -156,16 +156,16 @@ public class LunchList extends ListActivity
 	
 	private SharedPreferences.OnSharedPreferenceChangeListener prefListener =
 			new SharedPreferences.OnSharedPreferenceChangeListener()
-	{
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key)
-		{
-			if(key.equals("sort_order"))
 			{
-				initList();
-			}
-		}
-	};
+				@Override
+				public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key)
+				{
+					if (key.equals("sort_order"))
+					{
+						initList();
+					}
+				}
+			};
 	
 	private void setDataMembers()
 	{
@@ -179,7 +179,7 @@ public class LunchList extends ListActivity
 	
 	private void initList()
 	{
-		if(restaurants != null)
+		if (restaurants != null)
 		{
 			stopManagingCursor(restaurants);
 			restaurants.close();
@@ -224,7 +224,7 @@ public class LunchList extends ListActivity
 					{
 						public void onClick(DialogInterface dialog, int whichIndexWasPressed)
 						{
-							switch(whichIndexWasPressed)
+							switch (whichIndexWasPressed)
 							{
 								// Edit
 								case 0:

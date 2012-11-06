@@ -79,7 +79,7 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
 		// Switch with no breaks, upgrades will cascade
-		switch(oldVersion)
+		switch (oldVersion)
 		{
 			// Upgrade from v1
 			case 1:
@@ -175,11 +175,11 @@ public class RestaurantHelper extends SQLiteOpenHelper
 	public Restaurant.Type getType(Cursor c)
 	{
 		String theType = c.getString(TYPE_INT);
-		if(theType.equals("SIT_DOWN"))
+		if (theType.equals("SIT_DOWN"))
 		{
 			return Restaurant.Type.SIT_DOWN;
 		}
-		else if(theType.equals("TAKE_OUT"))
+		else if (theType.equals("TAKE_OUT"))
 		{
 			return Restaurant.Type.TAKE_OUT;
 		}

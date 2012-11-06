@@ -48,7 +48,7 @@ public class RestaurantMap extends MapActivity
 		map = (MapView) findViewById(R.id.map);
 		map.getController().setZoom(DEFAULT_ZOOM);
 		
-		location = new GeoPoint((int)(latitude * DEGREES_MULTIPLIER), (int)(longitude * DEGREES_MULTIPLIER));
+		location = new GeoPoint((int) (latitude * DEGREES_MULTIPLIER), (int) (longitude * DEGREES_MULTIPLIER));
 		
 		map.getController().setCenter(location);
 		map.setBuiltInZoomControls(true);
