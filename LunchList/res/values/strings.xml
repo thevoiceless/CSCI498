@@ -5,6 +5,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_lunch_list">Lunch List</string>
     <string name="ok">OK</string>
+    <string name="package_name">csci498.thevoiceless.lunchlist</string>
     
     <!-- Menus -->
     <string name="add_restaurant">Add Restaurant</string>
@@ -48,6 +49,10 @@
     
     <!-- Feed Service -->
     <string name="feed_service">FeedService</string>
+    
+    <!-- Widget Service -->
+    <string name="widget_service">WidgetService</string>
+    <string name="widget_no_restaurants">No restaurants!</string>
     
     <!-- Logging -->
     <string name="activity_feed">FeedActivity</string>
