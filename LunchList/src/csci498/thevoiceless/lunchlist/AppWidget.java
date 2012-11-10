@@ -1,5 +1,6 @@
 package csci498.thevoiceless.lunchlist;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -24,6 +25,7 @@ public class AppWidget extends AppWidgetProvider
 		}
 	}
 	
+	@TargetApi(11) 
 	public void onUpdateV11(Context context, AppWidgetManager manager, int[] appWidgetIds)
 	{
 		for (int i = 0; i < appWidgetIds.length; i++)
