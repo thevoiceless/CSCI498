@@ -16,7 +16,7 @@
     <string name="show_map">Show Map</string>
     
     <!-- Restaurants list -->
-    <string name="no_restaurants">Open the menu to add a restaurant.</string>
+    <string name="no_restaurants">No restaurants.</string>
     
     <string name="placeholder_title">Title</string>
     <string name="placeholder_textview">TextView</string>
