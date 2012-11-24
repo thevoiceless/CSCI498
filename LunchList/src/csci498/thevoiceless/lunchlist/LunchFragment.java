@@ -1,9 +1,6 @@
 package csci498.thevoiceless.lunchlist;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,25 +15,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LunchFragment extends ListFragment
 {
 	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
-	private final static int LONG_PRESS_ACTIONS = 1;
 	// Cursor for restaurants in the database, and its associated adapter
 	private Cursor restaurants;
 	private RestaurantAdapter restaurantsAdapter;
 	// Data members from the view
 	private SharedPreferences prefs;
 	private RestaurantHelper dbHelper;
-	private ListView list;
-	private long longPressedRestaurant;
 	private onRestaurantListener listener;
 	
 	public interface onRestaurantListener
@@ -110,8 +101,6 @@ public class LunchFragment extends ListFragment
 	{
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		
-		setListeners();
 	}
 	
 	@Override
@@ -160,13 +149,6 @@ public class LunchFragment extends ListFragment
 		}
 	}
 	
-	private void showDetailForm(long id)
-	{
-		Intent i = new Intent(getActivity(), DetailForm.class);
-		i.putExtra(RESTAURANT_ID_KEY, String.valueOf(id));
-		startActivity(i);
-	}
-	
 	private SharedPreferences.OnSharedPreferenceChangeListener prefListener =
 			new SharedPreferences.OnSharedPreferenceChangeListener()
 			{
@@ -179,12 +161,26 @@ public class LunchFragment extends ListFragment
 					}
 				}
 			};
+			
+	public void setOnRestaurantListener(onRestaurantListener listener)
+	{
+		this.listener = listener;
+	}
+	
+	public RestaurantHelper getDatabaseHelper()
+	{
+		return dbHelper;
+	}
+	
+	public Cursor getCursor()
+	{
+		return restaurants;
+	}
 	
 	private void setDataMembers()
 	{
 		prefs		= PreferenceManager.getDefaultSharedPreferences(getActivity());
 		dbHelper	= new RestaurantHelper(getActivity());
-		list		= getListView();
 		
 		initList();
 		prefs.registerOnSharedPreferenceChangeListener(prefListener);
@@ -206,66 +202,4 @@ public class LunchFragment extends ListFragment
 		restaurantsAdapter = new RestaurantAdapter(restaurants);
 		setListAdapter(restaurantsAdapter);
 	}
-	
-	private void setListeners()
-	{
-		/*
-		// Display dialog after long-pressing on a list item
-		list.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
-			@Override
-			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
-			{
-				longPressedRestaurant = id;
-				// showDialog automatically calls onCreateDialog for an Activity
-				showDialog(LONG_PRESS_ACTIONS);
-				return true;
-			}
-		});
-		*/
-	}
-	
-	public void setOnRestaurantListener(onRestaurantListener listener)
-	{
-		this.listener = listener;
-	}
-	
-	/*
-	@Override
-	public Dialog onCreateDialog(int id)
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		
-		if (id == LONG_PRESS_ACTIONS)
-		{
-			builder.setItems(R.array.longpress_actions,
-					new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int whichIndexWasPressed)
-						{
-							switch (whichIndexWasPressed)
-							{
-								// Edit
-								case 0:
-									showDetailForm(longPressedRestaurant);
-									break;
-								// Delete
-								case 1:
-									if (dbHelper.delete(String.valueOf(longPressedRestaurant)))
-									{
-										Toast.makeText(getActivity(), R.string.delete_success, Toast.LENGTH_LONG).show();
-										restaurants.requery();
-									}
-									else
-									{
-										Toast.makeText(getActivity(), R.string.delete_failure, Toast.LENGTH_LONG).show();
-									}
-									break;
-							}
-						}
-					});
-		}		
-		return builder.create();
-	}
-	*/
 }

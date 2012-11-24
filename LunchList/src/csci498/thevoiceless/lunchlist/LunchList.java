@@ -2,7 +2,6 @@ package csci498.thevoiceless.lunchlist;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +10,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,24 +25,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LunchList extends ListActivity
+public class LunchList extends FragmentActivity implements LunchFragment.onRestaurantListener
 {
 	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
 	private final static int LONG_PRESS_ACTIONS = 1;
-	// Cursor for restaurants in the database, and its associated adapter
-	private Cursor restaurants;
-	private RestaurantAdapter restaurantsAdapter = null;
-	// Data members from the view
-	private SharedPreferences prefs = null;
-	private RestaurantHelper dbHelper = null;
-	private ListView list = null;
+	private ListView list;
 	private long longPressedRestaurant;
+	
+	private LunchFragment lunch;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_lunch_list);
+		setContentView(R.layout.fragment_lunch_list);
 		
 		setDataMembers();
 		setListeners();
@@ -73,127 +68,18 @@ public class LunchList extends ListActivity
 	}
 	
 	@Override
-	public void onDestroy()
-	{
-		super.onDestroy();
-		dbHelper.close();
-	}
-	
-	@Override
-	public void onListItemClick(ListView list, View view, int position, long id)
-	{
-		showDetailForm(id);
-	}
-	
-	private void showDetailForm(long id)
+	public void onRestaurantSelected(long id)
 	{
 		Intent i = new Intent(LunchList.this, DetailForm.class);
 		i.putExtra(RESTAURANT_ID_KEY, String.valueOf(id));
 		startActivity(i);
 	}
-	
-	// CursorAdapter uses bindView() and newView() instead of getView()
-	class RestaurantAdapter extends CursorAdapter
-	{
-		RestaurantAdapter(Cursor c)
-		{
-			super(LunchList.this, c);
-		}
 		
-		@Override
-		public void bindView(View row, Context context, Cursor cursor)
-		{
-			RestaurantHolder holder = (RestaurantHolder) row.getTag();
-			holder.populateFrom(cursor, dbHelper);
-		}
-		
-		@Override
-		public View newView(Context context, Cursor cursor, ViewGroup parent)
-		{
-			LayoutInflater inflater = getLayoutInflater();
-			View row = inflater.inflate(R.layout.row, parent, false);
-			RestaurantHolder holder = new RestaurantHolder(row);
-			row.setTag(holder);
-			return row;
-		}
-	}
-	
-	static class RestaurantHolder
-	{
-		private TextView rName = null;
-		private TextView rAddress = null;
-		private ImageView rIcon = null;
-		
-		RestaurantHolder(View row)
-		{
-			rName = (TextView) row.findViewById(R.id.title);
-			rAddress = (TextView) row.findViewById(R.id.address);
-			rIcon = (ImageView) row.findViewById(R.id.icon);
-		}
-		
-		void populateFrom(Cursor cursor, RestaurantHelper helper)
-		{
-			rName.setText(helper.getName(cursor));
-			rAddress.setText(helper.getAddress(cursor));
-			
-			if (helper.getType(cursor).equals(Restaurant.Type.SIT_DOWN))
-			{
-				rIcon.setImageResource(R.drawable.green_circle);
-				rName.setTextColor(Color.rgb(0, 153, 0));
-			}
-			else if (helper.getType(cursor).equals(Restaurant.Type.TAKE_OUT))
-			{
-				rIcon.setImageResource(R.drawable.blue_circle);
-				rName.setTextColor(Color.BLUE);
-			}
-			else
-			{
-				rIcon.setImageResource(R.drawable.lightblue_circle);
-				rName.setTextColor(Color.rgb(56, 178, 206));
-			}
-		}
-	}
-	
-	private SharedPreferences.OnSharedPreferenceChangeListener prefListener =
-			new SharedPreferences.OnSharedPreferenceChangeListener()
-			{
-				@Override
-				public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key)
-				{
-					if (key.equals("sort_order"))
-					{
-						initList();
-					}
-				}
-			};
-	
 	private void setDataMembers()
 	{
-		prefs		= PreferenceManager.getDefaultSharedPreferences(this);
-		dbHelper	= new RestaurantHelper(this);
-		list		= getListView();
-		
-		initList();
-		prefs.registerOnSharedPreferenceChangeListener(prefListener);
-	}
-	
-	private void initList()
-	{
-		if (restaurants != null)
-		{
-			stopManagingCursor(restaurants);
-			restaurants.close();
-		}
-		
-		restaurants = dbHelper.getAll(prefs.getString("sort_order", "name"));
-		startManagingCursor(restaurants);
-		setAdapters();
-	}
-	
-	private void setAdapters()
-	{
-		restaurantsAdapter = new RestaurantAdapter(restaurants);
-		setListAdapter(restaurantsAdapter);
+		lunch = (LunchFragment) getSupportFragmentManager().findFragmentById(R.id.lunchFragment);
+		lunch.setOnRestaurantListener(this);
+		list = lunch.getListView();
 	}
 	
 	private void setListeners()
@@ -228,14 +114,14 @@ public class LunchList extends ListActivity
 							{
 								// Edit
 								case 0:
-									showDetailForm(longPressedRestaurant);
+									onRestaurantSelected(longPressedRestaurant);
 									break;
 								// Delete
 								case 1:
-									if (dbHelper.delete(String.valueOf(longPressedRestaurant)))
+									if (lunch.getDatabaseHelper().delete(String.valueOf(longPressedRestaurant)))
 									{
 										Toast.makeText(LunchList.this, R.string.delete_success, Toast.LENGTH_LONG).show();
-										restaurants.requery();
+										lunch.getCursor().requery();
 									}
 									else
 									{
