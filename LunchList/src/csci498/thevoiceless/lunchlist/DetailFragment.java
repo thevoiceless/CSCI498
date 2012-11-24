@@ -1,6 +1,6 @@
 package csci498.thevoiceless.lunchlist;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
@@ -9,53 +9,71 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailForm extends Activity
+public class DetailFragment extends Fragment
 {
-	EditText name = null;
-	EditText address = null;
-	RadioGroup typeGroup = null;
-	TextView location = null;
-	EditText notes = null;
-	EditText feed = null;
-	RestaurantHelper dbHelper = null;
-	String restaurantId = null;
-	LocationManager locManager = null;
+	EditText name, address, notes, feed;
+	RadioGroup typeGroup;
+	TextView location;
+	RestaurantHelper dbHelper;
+	String restaurantId;
+	LocationManager locManager;
 	double latitude, longitude;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detail_form);
-		
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
 		setDataMembers();
+		name.setText(savedInstanceState.getString("name"));
+		address.setText(savedInstanceState.getString("address"));
+		typeGroup.check(savedInstanceState.getInt("type"));
+		notes.setText(savedInstanceState.getString("notes"));
+		feed.setText(savedInstanceState.getString("feed"));
 	}
 	
 	@Override
 	public void onPause()
 	{
+		saveRestaurant();
 		locManager.removeUpdates(onLocationChange);
+		dbHelper.close();
 		super.onPause();
 	}
 	
 	@Override
-	public void onDestroy()
+	public void onResume()
 	{
-		super.onDestroy();
-		dbHelper.close();
+		super.onResume();
+		setDataMembers();
 	}
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		return inflater.inflate(R.layout.fragment_detail_form, container, false);
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu)
 	{
 		Log.v("menu", "lat/long: " + latitude + "/" + longitude);
 		if (latitude == 0 && longitude == 0)
@@ -66,14 +84,12 @@ public class DetailForm extends Activity
 		{
 			menu.findItem(R.id.menu_map).setEnabled(true);
 		}
-		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
 	{
-		new MenuInflater(this).inflate(R.menu.details_option, menu);
-		return super.onCreateOptionsMenu(menu);
+		inflater.inflate(R.menu.details_option, menu);
 	}
 	
 	@Override
@@ -86,13 +102,13 @@ public class DetailForm extends Activity
 		}
 		else if (item.getItemId() == R.id.menu_location)
 		{
-			Toast.makeText(DetailForm.this, R.string.loc_attempting, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.loc_attempting, Toast.LENGTH_LONG).show();
 			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return true;
 		}
 		else if (item.getItemId() == R.id.menu_map)
 		{
-			Intent i = new Intent(this, RestaurantMap.class);
+			Intent i = new Intent(getActivity(), RestaurantMap.class);
 			i.putExtra(RestaurantMap.LATITUDE_KEY, latitude);
 			i.putExtra(RestaurantMap.LONGITUDE_KEY, longitude);
 			i.putExtra(RestaurantMap.NAME_KEY, name.getText().toString());
@@ -117,18 +133,6 @@ public class DetailForm extends Activity
 		state.putInt("type", typeGroup.getCheckedRadioButtonId());
 		state.putString("notes", notes.getText().toString());
 		state.putString("feed", feed.getText().toString());
-	}
-	
-	@Override
-	public void onRestoreInstanceState(Bundle state)
-	{
-		super.onRestoreInstanceState(state);
-		
-		name.setText(state.getString("name"));
-		address.setText(state.getString("address"));
-		typeGroup.check(state.getInt("type"));
-		notes.setText(state.getString("notes"));
-		feed.setText(state.getString("feed"));
 	}
 	
 	private void saveRestaurant()
@@ -169,11 +173,11 @@ public class DetailForm extends Activity
 						feed.getText().toString());
 				dbHelper.updateLocation(restaurantId, latitude, longitude);
 			}
-			finish();
+			getActivity().finish();
 		}
 		else
 		{
-			Toast.makeText(this, R.string.name_required, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.name_required, Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -181,13 +185,13 @@ public class DetailForm extends Activity
 	{
 		if (isNetworkAvailable())
 		{
-			Intent i = new Intent(this, FeedActivity.class);
+			Intent i = new Intent(getActivity(), FeedActivity.class);
 			i.putExtra(FeedActivity.FEED_URL_KEY, feed.getText().toString());
 			startActivity(i);
 		}
 		else
 		{
-			Toast.makeText(this, R.string.no_connection, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.no_connection, Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -200,7 +204,7 @@ public class DetailForm extends Activity
 			location.setText(latitude + ", " + longitude);
 			locManager.removeUpdates(onLocationChange);
 			
-			Toast.makeText(DetailForm.this, R.string.loc_success, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), R.string.loc_success, Toast.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -221,23 +225,23 @@ public class DetailForm extends Activity
 	
 	private void setDataMembers()
 	{		
-		name 		= (EditText) findViewById(R.id.name);
-		address 	= (EditText) findViewById(R.id.addr);
-		typeGroup 	= (RadioGroup) findViewById(R.id.typeGroup);
-		location	= (TextView) findViewById(R.id.locCoords);
-		notes 		= (EditText) findViewById(R.id.notes);
-		feed		= (EditText) findViewById(R.id.feed);
-		dbHelper	= new RestaurantHelper(this);
-		restaurantId = getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
-		locManager	= (LocationManager) getSystemService(LOCATION_SERVICE);
+		name 		= (EditText) getView().findViewById(R.id.name);
+		address 	= (EditText) getView().findViewById(R.id.addr);
+		typeGroup 	= (RadioGroup) getView().findViewById(R.id.typeGroup);
+		location	= (TextView) getView().findViewById(R.id.locCoords);
+		notes 		= (EditText) getView().findViewById(R.id.notes);
+		feed		= (EditText) getView().findViewById(R.id.feed);
+		dbHelper	= new RestaurantHelper(getActivity());
+		restaurantId = getActivity().getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
+		locManager	= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		
 		if (restaurantId != null)
 		{
-			load();
+			loadRestaurant();
 		}
 	}
 	
-	private void load()
+	private void loadRestaurant()
 	{
 		Cursor c = dbHelper.getById(restaurantId);
 		c.moveToFirst();
@@ -271,7 +275,7 @@ public class DetailForm extends Activity
 	
 	private boolean isNetworkAvailable()
 	{
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo connection = cm.getActiveNetworkInfo();
 		return (connection != null);
 	}
