@@ -100,14 +100,13 @@ public class LunchFragment extends ListFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+		//setHasOptionsMenu(true);
 	}
 	
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		
 		setDataMembers();
 	}
 	

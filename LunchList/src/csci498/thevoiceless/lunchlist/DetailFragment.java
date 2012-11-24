@@ -57,7 +57,12 @@ public class DetailFragment extends Fragment
 	@Override
 	public void onPause()
 	{
-		saveRestaurant();
+		// TODO: Check for empty name, warn that nameless restaurants are not saved
+		// TODO: If editing an existing restaurant, ask to save changes
+//		if (restaurantId != null)
+//		{
+//			saveRestaurant();
+//		}
 		locManager.removeUpdates(onLocationChange);
 		dbHelper.close();
 		super.onPause();
