@@ -59,10 +59,10 @@ public class DetailFragment extends Fragment
 	{
 		// TODO: Check for empty name, warn that nameless restaurants are not saved
 		// TODO: If editing an existing restaurant, ask to save changes
-//		if (restaurantId != null)
-//		{
-//			saveRestaurant();
-//		}
+		//if (restaurantId != null)
+		//{
+		//	saveRestaurant();
+		//}
 		locManager.removeUpdates(onLocationChange);
 		dbHelper.close();
 		super.onPause();
