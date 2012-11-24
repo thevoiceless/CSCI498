@@ -42,12 +42,16 @@ public class DetailFragment extends Fragment
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
+		super.onActivityCreated(savedInstanceState);
 		setDataMembers();
-		name.setText(savedInstanceState.getString("name"));
-		address.setText(savedInstanceState.getString("address"));
-		typeGroup.check(savedInstanceState.getInt("type"));
-		notes.setText(savedInstanceState.getString("notes"));
-		feed.setText(savedInstanceState.getString("feed"));
+		if (savedInstanceState != null)
+		{
+			name.setText(savedInstanceState.getString("name"));
+			address.setText(savedInstanceState.getString("address"));
+			typeGroup.check(savedInstanceState.getInt("type"));
+			notes.setText(savedInstanceState.getString("notes"));
+			feed.setText(savedInstanceState.getString("feed"));
+		}
 	}
 	
 	@Override
@@ -69,7 +73,7 @@ public class DetailFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_detail_form, container, false);
+		return inflater.inflate(R.layout.layout_detail_form, container, false);
 	}
 	
 	@Override
