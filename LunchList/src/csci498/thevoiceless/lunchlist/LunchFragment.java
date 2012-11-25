@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 public class LunchFragment extends ListFragment
 {
-	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
 	// Cursor for restaurants in the database, and its associated adapter
 	private Cursor restaurants;
 	private RestaurantAdapter restaurantsAdapter;

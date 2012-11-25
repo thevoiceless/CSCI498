@@ -2,33 +2,24 @@ package csci498.thevoiceless.lunchlist;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.CursorAdapter;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class LunchList extends FragmentActivity implements LunchFragment.onRestaurantListener
 {
 	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
-	public final static String ARGUMENT_RESTAURANT_ID = "csci498.thevoiceless.RESTAURANT_ID";
 	private final static int LONG_PRESS_ACTIONS = 1;
 	private ListView list;
 	private long longPressedRestaurant;
@@ -80,7 +71,22 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 		}
 		else
 		{
+			FragmentManager fragManager = getSupportFragmentManager();
+			DetailFragment details = (DetailFragment) fragManager.findFragmentById(R.id.detailsPane);
 			
+			if (details == null)
+			{
+				details = DetailFragment.newInstance(id);
+				FragmentTransaction transaction = fragManager.beginTransaction();
+				transaction.add(R.id.detailsPane, details)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+						.addToBackStack(null)
+						.commit();
+			}
+			else
+			{
+				details.loadRestaurantById(String.valueOf(id));
+			}
 		}
 	}
 		
