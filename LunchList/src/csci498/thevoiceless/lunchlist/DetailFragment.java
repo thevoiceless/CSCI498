@@ -32,6 +32,17 @@ public class DetailFragment extends Fragment
 	LocationManager locManager;
 	double latitude, longitude;
 	
+	public static DetailFragment newInstance(long id)
+	{
+		DetailFragment result = new DetailFragment();
+		Bundle args = new Bundle();
+		
+		args.putString(LunchList.RESTAURANT_ID_KEY, String.valueOf(id));
+		result.setArguments(args);
+		
+		return result;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -52,6 +63,18 @@ public class DetailFragment extends Fragment
 			notes.setText(savedInstanceState.getString("notes"));
 			feed.setText(savedInstanceState.getString("feed"));
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle state)
+	{
+		super.onSaveInstanceState(state);
+		
+		state.putString("name", name.getText().toString());
+		state.putString("address", address.getText().toString());
+		state.putInt("type", typeGroup.getCheckedRadioButtonId());
+		state.putString("notes", notes.getText().toString());
+		state.putString("feed", feed.getText().toString());
 	}
 	
 	@Override
@@ -132,16 +155,22 @@ public class DetailFragment extends Fragment
 		return super.onOptionsItemSelected(item);
 	}
 	
-	@Override
-	public void onSaveInstanceState(Bundle state)
+	public void loadRestaurantById(String id)
 	{
-		super.onSaveInstanceState(state);
-		
-		state.putString("name", name.getText().toString());
-		state.putString("address", address.getText().toString());
-		state.putInt("type", typeGroup.getCheckedRadioButtonId());
-		state.putString("notes", notes.getText().toString());
-		state.putString("feed", feed.getText().toString());
+		restaurantId = id;
+		if (restaurantId != null)
+		{
+			loadRestaurant();
+		}
+	}
+	
+	private RestaurantHelper getDbHelper()
+	{
+		if (dbHelper == null)
+		{
+			dbHelper = new RestaurantHelper(getActivity());
+		}
+		return dbHelper;
 	}
 	
 	private void saveRestaurant()
@@ -164,7 +193,7 @@ public class DetailFragment extends Fragment
 			
 			if (restaurantId == null)
 			{
-				dbHelper.insert(name.getText().toString(),
+				getDbHelper().insert(name.getText().toString(),
 						address.getText().toString(),
 						type,
 						notes.getText().toString(),
@@ -174,13 +203,13 @@ public class DetailFragment extends Fragment
 			}
 			else
 			{
-				dbHelper.update(restaurantId,
+				getDbHelper().update(restaurantId,
 						name.getText().toString(),
 						address.getText().toString(),
 						type,
 						notes.getText().toString(),
 						feed.getText().toString());
-				dbHelper.updateLocation(restaurantId, latitude, longitude);
+				getDbHelper().updateLocation(restaurantId, latitude, longitude);
 			}
 			getActivity().finish();
 		}
@@ -244,6 +273,12 @@ public class DetailFragment extends Fragment
 		restaurantId = getActivity().getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
 		locManager	= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		
+		Bundle args = getArguments();
+		if (args != null)
+		{
+			restaurantId = args.getString(LunchList.RESTAURANT_ID_KEY);
+		}
+		
 		if (restaurantId != null)
 		{
 			loadRestaurant();
@@ -252,21 +287,21 @@ public class DetailFragment extends Fragment
 	
 	private void loadRestaurant()
 	{
-		Cursor c = dbHelper.getById(restaurantId);
+		Cursor c = getDbHelper().getById(restaurantId);
 		c.moveToFirst();
 		
-		name.setText(dbHelper.getName(c));
-		address.setText(dbHelper.getAddress(c));
-		if (dbHelper.getLatitude(c) != 0.0 && dbHelper.getLongitude(c) != 0.0)
+		name.setText(getDbHelper().getName(c));
+		address.setText(getDbHelper().getAddress(c));
+		if (getDbHelper().getLatitude(c) != 0.0 && getDbHelper().getLongitude(c) != 0.0)
 		{
-			latitude = dbHelper.getLatitude(c);
-			longitude = dbHelper.getLongitude(c);
+			latitude = getDbHelper().getLatitude(c);
+			longitude = getDbHelper().getLongitude(c);
 			location.setText("(" + latitude + ", " + longitude + ")");
 		}
-		notes.setText(dbHelper.getNotes(c));
-		feed.setText(dbHelper.getFeed(c));
+		notes.setText(getDbHelper().getNotes(c));
+		feed.setText(getDbHelper().getFeed(c));
 		
-		if (dbHelper.getType(c).equals(Restaurant.Type.SIT_DOWN))
+		if (getDbHelper().getType(c).equals(Restaurant.Type.SIT_DOWN))
 		{
 			typeGroup.check(R.id.sitdownRadio);
 		}

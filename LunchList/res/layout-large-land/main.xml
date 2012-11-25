@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="horizontal" >
+  
+  <fragment
+     class="csci498.thevoiceless.lunchlist.LunchFragment"
+     android:id="@+id/listPane"
+     android:layout_width="0dip"
+     android:layout_height="match_parent"
+     android:layout_weight="40" />
+  
+  <FrameLayout
+     android:id="@+id/detailsPane"
+     android:layout_width="0dip"
+     android:layout_height="match_parent"
+     android:layout_weight="60" />
+  
+</LinearLayout>

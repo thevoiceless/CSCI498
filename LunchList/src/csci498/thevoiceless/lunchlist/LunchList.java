@@ -28,6 +28,7 @@ import android.widget.Toast;
 public class LunchList extends FragmentActivity implements LunchFragment.onRestaurantListener
 {
 	public final static String RESTAURANT_ID_KEY = "csci498.thevoiceless.RESTAURANT_ID";
+	public final static String ARGUMENT_RESTAURANT_ID = "csci498.thevoiceless.RESTAURANT_ID";
 	private final static int LONG_PRESS_ACTIONS = 1;
 	private ListView list;
 	private long longPressedRestaurant;
@@ -70,9 +71,17 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	@Override
 	public void onRestaurantSelected(long id)
 	{
-		Intent i = new Intent(LunchList.this, DetailForm.class);
-		i.putExtra(RESTAURANT_ID_KEY, String.valueOf(id));
-		startActivity(i);
+		// Check if using two-pane layout
+		if (findViewById(R.id.detailsPane) == null)
+		{
+			Intent i = new Intent(LunchList.this, DetailForm.class);
+			i.putExtra(RESTAURANT_ID_KEY, String.valueOf(id));
+			startActivity(i);
+		}
+		else
+		{
+			
+		}
 	}
 		
 	private void setDataMembers()

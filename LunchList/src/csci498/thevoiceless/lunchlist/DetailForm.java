@@ -11,4 +11,20 @@ public class DetailForm extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_detail_form);
 	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		String restaurantId = getIntent().getStringExtra(LunchList.RESTAURANT_ID_KEY);
+		if (restaurantId != null)
+		{
+			DetailFragment details = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailsPane);
+			
+			if (details != null)
+			{
+				details.loadRestaurantById(restaurantId);
+			}
+		}
+	}
 }
