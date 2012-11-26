@@ -31,7 +31,7 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.fragment_main);
 		
 		setDataMembers();
 		setListeners();
