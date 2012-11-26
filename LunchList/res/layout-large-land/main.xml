@@ -5,7 +5,7 @@
   
   <fragment
      class="csci498.thevoiceless.lunchlist.LunchFragment"
-     android:id="@+id/listPane"
+     android:id="@+id/lunchFragment"
      android:layout_width="0dip"
      android:layout_height="match_parent"
      android:layout_weight="40" />

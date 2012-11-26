@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_lunch_list);
+		setContentView(R.layout.main);
 		
 		setDataMembers();
 		setListeners();
@@ -91,8 +92,12 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	}
 		
 	private void setDataMembers()
-	{
+	{		
 		lunch = (LunchFragment) getSupportFragmentManager().findFragmentById(R.id.lunchFragment);
+		if (lunch == null)
+		{
+			Log.v("wtf", "null");
+		}
 		lunch.setOnRestaurantListener(this);
 		list = lunch.getListView();
 	}
