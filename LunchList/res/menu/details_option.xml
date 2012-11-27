@@ -3,21 +3,26 @@
     <item
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_menu_save"
-        android:title="@string/action_save" />
+        android:title="@string/menu_action_save" />
     
     <item
         android:id="@+id/menu_location"
         android:icon="@drawable/ic_menu_compass"
-        android:title="@string/set_location" />
+        android:title="@string/menu_set_location" />
     
     <item
         android:id="@+id/menu_map"
         android:icon="@drawable/ic_menu_mapmode"
-        android:title="@string/show_map" />
+        android:title="@string/menu_show_map" />
 
     <item
         android:id="@+id/menu_feed"
         android:icon="@drawable/ic_menu_share"
-        android:title="@string/open_rss" />
+        android:title="@string/menu_open_rss" />
+    
+    <item
+        android:id="@+id/menu_help"
+		android:title="@string/menu_help"
+		android:icon="@drawable/ic_menu_help" />
 
 </menu>

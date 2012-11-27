@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,7 +100,7 @@ public class LunchFragment extends ListFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -118,14 +119,22 @@ public class LunchFragment extends ListFragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if (item.getItemId() == R.id.add)
+		if (item.getItemId() == R.id.menu_add)
 		{
+			Log.v("test", "add");
 			startActivity(new Intent(getActivity(), DetailForm.class));
 			return true;
 		}
-		else if (item.getItemId() == R.id.prefs)
+		else if (item.getItemId() == R.id.menu_prefs)
 		{
+			Log.v("test", "prefs");
 			startActivity(new Intent(getActivity(), EditPreferences.class));
+			return true;
+		}
+		else if (item.getItemId() == R.id.menu_help)
+		{
+			Log.v("test", "help");
+			startActivity(new Intent(getActivity(), HelpPage.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

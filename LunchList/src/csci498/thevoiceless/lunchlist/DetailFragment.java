@@ -147,9 +147,15 @@ public class DetailFragment extends Fragment
 			startActivity(i);
 			return true;
 		}
-		else if(item.getItemId() == R.id.menu_feed)
+		else if (item.getItemId() == R.id.menu_feed)
 		{
 			tryToOpenFeed();
+			return true;
+		}
+		else if (item.getItemId() == R.id.menu_help)
+		{
+			Log.v("test", "help");
+			startActivity(new Intent(getActivity(), HelpPage.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

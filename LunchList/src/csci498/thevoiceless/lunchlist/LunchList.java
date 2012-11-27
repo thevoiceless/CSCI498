@@ -38,29 +38,6 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		new MenuInflater(this).inflate(R.menu.option, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		if (item.getItemId() == R.id.add)
-		{
-			startActivity(new Intent(LunchList.this, DetailForm.class));
-			return true;
-		}
-		else if (item.getItemId() == R.id.prefs)
-		{
-			startActivity(new Intent(this, EditPreferences.class));
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
 	public void onRestaurantSelected(long id)
 	{
 		// Check if using two-pane layout
@@ -94,10 +71,6 @@ public class LunchList extends FragmentActivity implements LunchFragment.onResta
 	private void setDataMembers()
 	{		
 		lunch = (LunchFragment) getSupportFragmentManager().findFragmentById(R.id.lunchFragment);
-		if (lunch == null)
-		{
-			Log.v("wtf", "null");
-		}
 		lunch.setOnRestaurantListener(this);
 		list = lunch.getListView();
 	}
