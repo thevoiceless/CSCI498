@@ -21,7 +21,6 @@
     <string name="placeholder_title">Title</string>
     <string name="placeholder_textview">TextView</string>
     
-    
     <!-- Restaurant form -->
     <string name="label_name">Name:</string>
     <string name="label_addr">Address:</string>
@@ -67,8 +66,9 @@
     <string name="key_alarm">alarm</string>
     <string name="key_alarm_time">alarm_time</string>
     <string name="key_alarm_use_notification">use_notification</string>
+    <string name="key_alarm_ringtone">alarm_ringtone</string>
     
-    <string name="pref_sort_order">Sort Order</string>
+    <string name="pref_sort_order_title">Sort Order</string>
     <string name="pref_sort_order_summary">Choose the order for the list of restaurants</string>
     <string name="pref_sort_dialog">Choose a sort order</string>
     <string name="pref_alarm_title">Sound a Lunch Alarm</string>
@@ -80,6 +80,8 @@
     <string name="pref_alarm_use_notification_summary">Enable to display a notification in the status bar, or disable for a full-screen notification</string>
     <string name="pref_button_set">Set</string>
     <string name="pref_button_cancel">Cancel</string>
+    <string name="pref_alarm_ringtone_title">Alarm Ringtone</string>
+    <string name="pref_alarm_ringtone_summary">Set the ringtone to be used for lunch alarms</string>
     
     <string name="alarm_message">Time for lunch!</string>
     

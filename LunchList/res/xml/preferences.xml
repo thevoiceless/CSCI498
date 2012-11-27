@@ -2,7 +2,7 @@
     
     <ListPreference
         android:key="@string/key_sort_order"
-        android:title="@string/pref_sort_order"
+        android:title="@string/pref_sort_order_title"
         android:summary="@string/pref_sort_order_summary"
         android:entries="@array/sort_names"
         android:entryValues="@array/sort_clauses"
@@ -25,6 +25,13 @@
         android:title="@string/pref_alarm_use_notification_title"
         android:defaultValue="true"
         android:summary="@string/pref_alarm_use_notification_summary"
+        android:dependency="@string/key_alarm" />
+    
+    <RingtonePreference
+        android:key="@string/key_alarm_ringtone"
+        android:title="@string/pref_alarm_ringtone_title"
+        android:summary="@string/pref_alarm_ringtone_summary"
+        android:showSilent="true"
         android:dependency="@string/key_alarm" />
 
 </PreferenceScreen>

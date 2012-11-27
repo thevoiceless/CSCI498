@@ -13,25 +13,6 @@ public class TimePreference extends DialogPreference
 	private int lastMinute;
 	private TimePicker picker;
 	
-	public static int getHour(String time)
-	{
-		String[] pieces = time.split(":");
-		return Integer.parseInt(pieces[0]);
-	}
-	
-	public static int getMinute(String time)
-	{
-		String[] pieces = time.split(":");
-		return Integer.parseInt(pieces[1]);
-	}
-	
-	public TimePreference(Context context, AttributeSet attrs)
-	{
-		super(context, attrs);
-		setPositiveButtonText(R.string.pref_button_set);
-		setNegativeButtonText(R.string.pref_button_cancel);
-	}
-	
 	@Override
 	protected View onCreateDialogView()
 	{
@@ -96,17 +77,22 @@ public class TimePreference extends DialogPreference
 		lastMinute = getMinute(time);
 	}
 	
+	public static int getHour(String time)
+	{
+		String[] pieces = time.split(":");
+		return Integer.parseInt(pieces[0]);
+	}
 	
+	public static int getMinute(String time)
+	{
+		String[] pieces = time.split(":");
+		return Integer.parseInt(pieces[1]);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public TimePreference(Context context, AttributeSet attrs)
+	{
+		super(context, attrs);
+		setPositiveButtonText(R.string.pref_button_set);
+		setNegativeButtonText(R.string.pref_button_cancel);
+	}	
 }
