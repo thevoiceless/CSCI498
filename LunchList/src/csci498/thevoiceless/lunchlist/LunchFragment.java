@@ -121,19 +121,16 @@ public class LunchFragment extends ListFragment
 	{
 		if (item.getItemId() == R.id.menu_add)
 		{
-			Log.v("test", "add");
 			startActivity(new Intent(getActivity(), DetailForm.class));
 			return true;
 		}
 		else if (item.getItemId() == R.id.menu_prefs)
 		{
-			Log.v("test", "prefs");
 			startActivity(new Intent(getActivity(), EditPreferences.class));
 			return true;
 		}
 		else if (item.getItemId() == R.id.menu_help)
 		{
-			Log.v("test", "help");
 			startActivity(new Intent(getActivity(), HelpPage.class));
 			return true;
 		}
